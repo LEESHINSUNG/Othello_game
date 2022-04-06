@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>オセロ</title>
+    <!-- <script src="style.css"></script> -->
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- 
+    流れ：
+        １．UIを作成するーHTML/CSSだけ
+        ２．動きをつけていくーボタンを押したら、何かなる。クリックしたら何か動く。
+    
+    テーブル：
+        <table>, <ul>, <div>  
+     -->
+
+
+     
+     <!-- Start Screen -->
+    <!-- <div class="start_screen">
+        <div class="start_title">
+            <div class="title_animation">
+                <p class="title_name">Othello</p>
+            </div>
+        </div>
+        <div class="start_btn">
+            <button class="play_btn">Start</button>
+        </div>
+    </div> -->
+
+    <!-- Game Screen -->
+    <div class="game_screen">
+        <div>
+            <div>
+                <div class="screen_container">
+                    <div class="black_animation"></div>
+                </div>
+                <div class="screen_container">
+                    <table class="game_table">
+                        <tr class="table_line">
+                           <th class="table_line"></th>
+                           <th class="table_line"></th>
+                           <th class="table_line"></th>
+                           <th class="table_line"></th>
+                           <th class="table_line"></th>
+                           <th class="table_line"></th>
+                           <th class="table_line"></th>
+                           <th class="table_line"></th>
+                        </tr>
+                        <tr class="table_line">
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                        </tr>
+                        <tr class="table_line">
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                        </tr>
+                        <tr class="table_line">
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                        </tr>
+                        <tr class="table_line">
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                        </tr>
+                        <tr class="table_line">
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                        </tr>
+                        <tr class="table_line">
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                        </tr>
+                        <tr class="table_line">
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                            <th class="table_line"></th>
+                        </tr>              
+                    </table>
+                </div>
+                <div class="screen_container">
+                    <div class="white_table"></div>
+                </div>
+            </div>    
+            <div class="reset_hint_btn">
+                <div class="r_h_btn">
+                    <button class="reset_btn">reset</button>
+                </div>
+                <div class="r_h_btn">
+                    <button class="hint_btn">hint</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Screen -->
+    <div class="result_screen">
+        <div>
+            <div>
+                color
+            </div>
+            <div>
+                Win!!
+            </div>
+            <div>
+                <div>black</div>
+                <div>white</div>
+            </div>
+        </div>
+        <div>
+            <button>
+                X
+            </button>
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>
