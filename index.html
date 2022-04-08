@@ -28,7 +28,7 @@
 
      
      <!-- Start Screen -->
-    <div class="start_screen">
+    <!-- <div class="start_screen">
         <div class="start_title">
             <div class="title_animation">
                 <p class="title_name">Othello</p>
@@ -37,16 +37,22 @@
         <div class="start_btn">
             <button class="play_btn">Start</button>
         </div>
-    </div>
+    </div> -->
 
     <!-- Game Screen -->
-    <div class="game_screen">
-        <div>
-            <div>
-                <div class="screen_container">
-                    <div class="black_animation"></div>
+    <div class="game_all_screen">
+        <div class="game_screen">
+            <div class="toggle_switch">
+                <input type="checkbox" id="toggle">
+                <label class="switch"></label>
+            </div>
+            <div class="game_container">
+                <div class="black_container">
+                    <div class="black_animation">
+                        <img src="img/black_cat.png" alt="" width="200px" height="200">
+                    </div>
                 </div>
-                <div class="screen_container">
+                <div class="table_container">
                     <table class="game_table">
                         <tr class="table_line">
                            <th class="table_line"></th>
@@ -130,8 +136,10 @@
                         </tr>              
                     </table>
                 </div>
-                <div class="screen_container">
-                    <div class="white_table"></div>
+                <div class="white_container">
+                    <div class="white_animation">
+                        <img src="img/white_cat.png" alt="" width="200px" height="200">
+                    </div>
                 </div>
             </div>    
             <div class="reset_hint_btn">
