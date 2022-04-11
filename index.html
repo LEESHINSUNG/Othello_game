@@ -12,7 +12,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Patrick+Hand&family=Permanent+Marker&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -40,7 +40,7 @@
     </div> -->
 
     <!-- Game Screen -->
-    <div class="game_all_screen">
+    <!-- <div class="game_all_screen">
         <div class="game_screen">
             <div class="toggle_switch">
                 <input type="checkbox" id="switch" class="checkbox">
@@ -135,6 +135,14 @@
                             <th class="table_line"></th>
                         </tr>              
                     </table>
+                    <div class="reset_hint_btn">
+                        <div class="r_h_btn">
+                            <button class="reset_btn">reset</button>
+                        </div>
+                        <div class="r_h_btn">
+                            <button class="hint_btn">hint</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="white_container">
                     <div class="white_animation">
@@ -142,35 +150,30 @@
                     </div>
                 </div>
             </div>    
-            <div class="reset_hint_btn">
-                <div class="r_h_btn">
-                    <button class="reset_btn">reset</button>
-                </div>
-                <div class="r_h_btn">
-                    <button class="hint_btn">hint</button>
-                </div>
-            </div>
+            
         </div>
-    </div>
+    </div> -->
 
     <!-- Result Screen -->
     <div class="result_screen">
-        <div>
-            <div>
-                color
+        <div class="result_container">
+            <div class="result_cat">
+                <img src="img/black_cat.png" alt="" width="300px" height="auto">
             </div>
-            <div>
-                Win!!
+            <div class="result_winner">
+                <p class="winner">Winner</p>
             </div>
-            <div>
-                <div>black</div>
-                <div>white</div>
+            <div class="number_check">
+                <div class="black_check">
+                    <p class="black_no">black : </p>
+                </div>
+                <div class="white_check">
+                    <p class="white_no">white : </p>
+                </div>
             </div>
         </div>
-        <div>
-            <button>
-                X
-            </button>
+        <div class="restart">
+            <button class="restart_btn">restart</button>
         </div>
     </div>
 </body>
