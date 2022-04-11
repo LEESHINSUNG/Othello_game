@@ -171,6 +171,7 @@ background-color: whitesmoke;
 
 /* Result Screen */
 .result_screen {
+    z-index: 1;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -182,10 +183,23 @@ background-color: whitesmoke;
 }
 
 .winner {
-    font-size: 60px;
+    font-size: 70px;
     font-family: 'Permanent Marker', cursive;
     margin: 50px 0 30px 0;
+    color: #f35626;
+    background-image: linear-gradient(92deg, #f35626, #feab3a);
+    -webkit-background-clip: text;
+    animation: hue 1s infinite linear;
 }
+
+@keyframes hue {
+    from {
+      -webkit-filter: hue-rotate(0deg);
+    }
+    to {
+      -webkit-filter: hue-rotate(-360deg);
+    }
+  }
 
 .result_cat, .result_winner, .number_check, .restart {
     display: flex;
