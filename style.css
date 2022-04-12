@@ -13,7 +13,13 @@ background-color: whitesmoke;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: rgb(163, 153, 255);
+    display: none;
 }
+
+.start_screen.show{
+    display: block;
+}
+
 
 .title_name {
     margin: 160px 0px 190px 0px;
@@ -75,7 +81,7 @@ background-color: whitesmoke;
 
 .toggle {
     position: relative;
-    display: inline-block;
+    display: block;
     width: 100%;
     height: 100%;
     background-color: rgb(163, 153, 255);
@@ -116,6 +122,11 @@ background-color: whitesmoke;
     background-color: rgb(163, 153, 255);
     width: 100%;
     height: 100%;
+    display: none;
+}
+
+.game_all_screen.show{
+    display: block;
 }
 
 .game_screen {
@@ -171,7 +182,7 @@ background-color: whitesmoke;
 
 /* Result Screen */
 .result_screen {
-    z-index: 1;
+    z-index: 10;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -180,6 +191,22 @@ background-color: whitesmoke;
     border-radius: 3%;
     padding: 50px 50px 20px 30px;
     background-color: whitesmoke;
+    display: none;
+}
+
+.result_screen.show{
+    display: block;
+}
+
+/* 宿題 */
+.result_screen.show + #overlay {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, .7);
+    z-index: 3;
 }
 
 .winner {
