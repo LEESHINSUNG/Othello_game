@@ -8,7 +8,7 @@
     <title>オセロ</title>
     <!-- <script src="style.css"></script> -->
     <link rel="stylesheet" href="style.css">
-    <script src="main.js"></script>
+    <script src="main.js" defer></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,14 +28,14 @@
 
      
      <!-- Start Screen -->
-    <div class="start_screen">
+    <div class="start_screen show">
         <div class="start_title">
             <div class="title_animation">
                 <p class="title_name">Othello</p>
             </div>
         </div>
         <div class="start_btn">
-            <button class="play_btn">Start</button>
+            <button class="play_btn" id="start">Start</button>
         </div>
     </div>
 
@@ -49,90 +49,90 @@
             <div class="game_container">
                 <div class="black_container">
                     <div class="black_animation">
-                        <img src="img/black_cat.png" alt="" width="200px" height="200">
+                        <img src="img/black-removebg.png" alt="" width="200px" height="200">
                     </div>
                 </div>
                 <div class="table_container">
                     <table class="game_table">
                         <tr class="table_line">
-                           <th class="table_line"></th>
-                           <th class="table_line"></th>
-                           <th class="table_line"></th>
-                           <th class="table_line"></th>
-                           <th class="table_line"></th>
-                           <th class="table_line"></th>
-                           <th class="table_line"></th>
-                           <th class="table_line"></th>
+                           <td class="table_block"></td>
+                           <td class="table_block"></td>
+                           <td class="table_block"></td>
+                           <td class="table_block"></td>
+                           <td class="table_block"></td>
+                           <td class="table_block"></td>
+                           <td class="table_block"></td>
+                           <td class="table_block"></td>
                         </tr>
                         <tr class="table_line">
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
                         </tr>
                         <tr class="table_line">
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
                         </tr>
                         <tr class="table_line">
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"><div class="white_block"></div></td>
+                            <td class="table_block"><div class="black_block"></div></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
                         </tr>
                         <tr class="table_line">
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"><div class="black_block"></div></td>
+                            <td class="table_block"><div class="white_block"></div></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
                         </tr>
                         <tr class="table_line">
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
                         </tr>
                         <tr class="table_line">
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
                         </tr>
                         <tr class="table_line">
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
-                            <th class="table_line"></th>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
+                            <td class="table_block"></td>
                         </tr>              
                     </table>
                     <div class="reset_hint_btn">
@@ -146,7 +146,7 @@
                 </div>
                 <div class="white_container">
                     <div class="white_animation">
-                        <img src="img/white_cat.png" alt="" width="200px" height="200">
+                        <img src="img/white-removebg.png" alt="" width="200px" height="200">
                     </div>
                 </div>
             </div>    
@@ -158,7 +158,7 @@
      <div class="result_screen"> 
         <div class="result_container">
             <div class="result_cat">
-                <img src="img/black_cat.png" alt="" width="300px" height="auto">
+                <img src="img/black-removebg.png" alt="" width="300px" height="auto">
             </div>
             <div class="result_winner">
                 <p class="winner">Winner</p>
