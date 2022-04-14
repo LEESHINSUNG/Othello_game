@@ -6,6 +6,7 @@ let turn = b_block;
 const start = document.getElementById("start");
 const start_screen = document.querySelector(".start_screen");
 const table_block_all = document.querySelectorAll(".table_block");
+const toggle_switch = document.getElementById("switch");
 
 // Start_Button
 start.addEventListener(`click`, ()=>{
@@ -23,16 +24,12 @@ table_block_all.forEach((stone,index,stone_all)=>{
         
         if(turn===1) {
         stone.innerHTML = `<div class="black_stone"><div>`;
-        turn = w_block;
+        turn = w_block; 
         }
         else {
         stone.innerHTML = `<div class="white_stone"><div>`;
-        turn = b_block;
+        turn = b_block; 
         }
-            
+        toggle_switch.click(); 
     })
 });
-
-/* function */
-
-//turn_changej
