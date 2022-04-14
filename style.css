@@ -141,7 +141,7 @@ background-color: whitesmoke;
     align-items: center;
 }
 
-.white_block {
+.white_stone {
     display: flex;
     justify-content: center;
     margin: auto;
@@ -151,7 +151,7 @@ background-color: whitesmoke;
     background-color: white;
 }
 
-.black_block {
+.black_stone {
     display: flex;
     justify-content: center;
     margin: auto;
