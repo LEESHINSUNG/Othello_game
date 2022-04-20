@@ -4,7 +4,9 @@
 const WHITE = 0; // WHITE
 const BLACK = 1; //BLACK
 let turn = BLACK;
-let stone_conditions;
+const w_stand = '<td class="table_block"><div class="white_stone"></div></td>';
+const b_stand = '<td class="table_block"><div class="black_stone"></div></td>';
+let stone_conditions = b_stand;
 
 /* elemnet */
 const table_block_all = document.querySelectorAll(".table_block");
@@ -24,38 +26,106 @@ restart.addEventListener(`click`, () => {
   result_screen.classList.add("show");
 });
 
-/* Create div on click */
+// /* Create div on click */
 table_block_all.forEach((stone, index, stone_all) => {
   stone.addEventListener(`click`, () => {
     if (stone.innerHTML != "") {
       return;
     }
-    if(turn===1){
-      stone_conditions = b_stand;
-    } else{
-      stone_conditions = w_stand;
-    }
+
     // x,y noshutoku
     const x = stone.cellIndex;
     const y = stone.parentElement.rowIndex;
+    
 
     // left, right,top, bottom, top-left, top-right, bottom-right, bottom-left,
-    rule_check(x, y);
+
+    // Check inside
+    const checkInside = (x, y) => {
+      const tbody = document.querySelector("tbody");
+      const element = tbody.children[y].children[x];
+      console.log(element);
+    };
     // 石を置けれるかの敬
 
-    // if OK, ishi wo oku.
-    console.log(stone, x, y);
-
     //Change the turn
-    if (turn === 1) {
-      stone.innerHTML = `<div class="black_stone" id="stone"><div>`;
-      turn = WHITE;
-    } else {
-      stone.innerHTML = `<div class="white_stone" id="stone"><div>`;
-      turn = BLACK;
+    function change_turn() {
+      if (turn === 1) {
+        stone.innerHTML = `<div class="black_stone"></div>`;
+        turn = WHITE;
+        stone_conditions = w_stand;
+      } else {
+        stone.innerHTML = `<div class="white_stone"></div>`;
+        turn = BLACK;
+        stone_conditions = b_stand;
+      }
+      toggle_switch.click();
     }
 
-    toggle_switch.click();
+    // check right
+    for (let row = x+1; row<=7; row++) {
+      console.log(row,y);
+      checkInside(row,y);
+    }
+  
+  // check left
+    for (let row = x-1; row >= 0; row--) {
+      console.log(row, y);
+      checkInside(row, y);
+    }
+  
+
+  // check top
+    for (let col = y-1 ; col>=0 ;col--){
+      console.log(x,col);
+      checkInside(x,col);
+    }
+
+  // check bottom
+  for (let col = y+1; col<=7; col++) {
+    console.log(x,col);
+    checkInside(x,col);
+  }
+
+  // check top right
+    for (let row = x + 1; row <= 7; row++) {
+      for (let col = y - 1; col >= 0; col--) {
+        if(x+y===row+col){
+          console.log(row, col);
+          checkInside(row, col);
+        }
+      }
+    }
+
+  // check bottom left
+    for (let row = x - 1; row >= 0; row--) {
+      for (let col = y + 1; col <= 7; col++) {
+        if(x+y===row+col){
+          console.log(row, col);
+          checkInside(row, col);
+        }
+      }
+    }
+
+        // check top left
+    for (let row = x - 1; row>=0; row--){
+      for(let col = y - 1; col >=0; col--){
+      if(y-x === col-row) {
+          console.log(row, col);
+          checkInside(row, col);
+        }
+      }
+    }
+
+  // check bottom right
+    for(let row = x + 1; row <= 7; row++){
+      for(let col = y+1; col <=7; col++){
+        if(y-x === col-row){
+          console.log(row, col);
+          checkInside(row, col);
+        }
+      }
+    }
   });
 });
 
@@ -66,8 +136,8 @@ reset_btn.addEventListener("click", () => {
 });
 
 //Reset/Restart_function
-const div_w_stone = `<div class="white_stone" id="stone"><div>`;
-const div_b_stone = `<div class="black_stone" id="stone"><div>`;
+const div_w_stone = `<div class="white_stone"></div>`;
+const div_b_stone = `<div class="black_stone"></div>`;
 function reset_restart_game() {
   let reset_b_stone = document.querySelectorAll(".black_stone");
   let reset_w_stone = document.querySelectorAll(".white_stone");
@@ -85,6 +155,7 @@ function reset_restart_game() {
     toggle_switch.click();
   }
   turn = BLACK;
+  stone_conditions = b_stand;
 }
 
 //Hint Button
@@ -97,82 +168,89 @@ function game_result_screen() {
   result_screen.classList.remove("show");
 }
 
-/* <-- Game rule  --> */
-const w_stand = '<td class="table_block"><div class="white_stone"></div></td>';
-const b_stand = '<td class="table_block"><div class="black_stone"></div></td>';
 
-function rule_check(x, y) {
-  north(x, y);
-  south(x, y);
-  east(x, y);
-  west(x, y);
-  north_e(x, y);
-  north_w(x, y);
-  south_e(x, y);
-  south_w(x, y);
-}
 
-//Top
-function north(x, y) {
-  if (y === 0) {
-    return;
-  } else {
-  }
-}
 
-//Bottom
-function south(x, y) {
-  if (y === 7) {
-    return;
-  } else {
-  }
-}
+//  // check right
+// function checkRight(x,y) {
+//   console.log(`Right x : `,x);
+//   console.log(`Right y : `,y);
+//   for (let row = x+1; row<=7; row++) {
+//     console.log(row,y);
+//     checkInside(row,y);
+//   }
+//   console.log(`Inside row : `,row);
+//   console.log(`Inside y : `,y);
+// }
 
-//Right
-function east(x, y) {
-  if (x === 7) {
-    return;
-  } else {
-    
-  }
-}
+// // check left
+// function checkLeft(x,y) {
+//   for (let row = x-1; row >= 0; row--) {
+//     console.log(row, y);
+//     checkInside(row, y);
+//   }
+// }
 
-//Left
-function west(x, y) {
-  if (x === 0) {
-    return;
-  } else {
-  }
-}
+// // check top
+// function checkTop(x,y) {
+//   for (let col=y-1 ; col>=0 ;col--){
+//     console.log(x,index);
+//     checkInside(x,index);
+//   }
+// }
 
-//Top Right
-function north_e(x, y) {
-  if ((x, y) === (7, 0)) {
-    return;
-  } else {
-  }
-}
+// // check bottom
+// function checkBottom(x,y) {
+//   for (let col =y+1; col<=7; col++){
+//     console.log(x,index);
+//     checkInside(x,index);
+//   }
+// }
 
-//Top Left
-function north_w(x, y) {
-  if ((x, y) === (0, 0)) {
-    return;
-  } else {
-  }
-}
+// // check top right
+// function checkTopRight(x,y) {
+//   for (let row = x + 1; row <= 7; row++) {
+//     for (let col = y - 1; col >= 0; col--) {
+//       if(x+y===row+col){
+//         console.log(row, col);
+//         checkInside(row, col);
+//       }
+//     }
+//   }
+// }
 
-//Bottom right
-function south_e(x, y) {
-  if ((x, y) === (7, 7)) {
-    return;
-  } else {
-  }
-}
+// // check bottom left
+// function checkBottomLeft(x,y) {
+//   for (let row = x - 1; row >= 0; row--) {
+//     for (let col = y + 1; col <= 7; col++) {
+//       if(x+y===row+col){
+//         console.log(row, col);
+//         checkInside(row, col);
+//       }
+//     }
+//   }
+// }
 
-//Bottom Left
-function south_w(x, y) {
-  if ((x, y) === (0, 7)) {
-    return;
-  } else {
-  }
-}
+//       // check top left
+// function checkTopLeft(x,y) {
+//   for (let row = x - 1; row>=0; row--){
+//     for(let col = y - 1; col >=0; col--){
+//     if(y-x === col-row) {
+//         console.log(row, col);
+//         checkInside(row, col);
+//       }
+//     }
+//   }
+// }
+
+// // check bottom right
+// function checkBottomRight(x,y) {
+//   for(let row = x + 1; row <= 7; row++){
+//     for(let col = y+1; col <=7; col++){
+//       if(y-x === col-row){
+//         console.log(row, col);
+//         checkInside(row, col);
+//       }
+//     }
+//   }
+// }
