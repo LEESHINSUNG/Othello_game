@@ -137,33 +137,39 @@ body {
         justify-content: space-around;
     }
     
-    .black_container {
+    .black_cat_box {
         display: flex;
         align-items: center;
     }
     
-    .white_stone {
-        display: flex;
-        justify-content: center;
-        margin: auto;
+    td.white::after {
+        content: '';
+        position: absolute;
+        display: block;
         width: 80%;
         height: 80%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         border-radius: 50%;
         background-color: white;
     }
     
-    .black_stone {
-        display: flex;
-        justify-content: center;
-        margin: auto;
+    td.black::after {
+        content: '';
+        position: absolute;
+        display: block;
         width: 80%;
         height: 80%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         border-radius: 50%;
         background-color: black;
     }
     
     
-    .white_container {
+    .white_cat_box {
         display: flex;
         align-items: center;
     }
@@ -179,6 +185,7 @@ body {
     }
     
     .table_block {
+        position: relative;
         width: 70px;
         height: 70px;
         border: 1px solid black;
