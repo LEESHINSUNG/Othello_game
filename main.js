@@ -92,12 +92,14 @@ table_block_all.forEach((stone, index, stone_all) => {
     // 新しいプレイヤーは何か所に置けれるかを敬さん
     const count = countPlaces();
 
+    // 自動パス
     if (count == 0) {
       if (turn === BLACK) {
         turn = WHITE;
         toggle_switch.click();
         countPlaces();
         if (count == 0) {
+          // お互いに1回ずつ自動パスしたらゲーム終了
           game_result_screen(tbody);
           console.log("Double Pass");
           return 0;
@@ -125,6 +127,7 @@ function socreCheck(tbody) {
   scoreBlackResult.innerHTML = scoreBlackCount.length;
 }
 
+// マスから位置をとる
 function getXY(td) {
   const x = td.cellIndex;
   const y = td.parentElement.rowIndex;
@@ -135,10 +138,11 @@ function countPlaces() {
   const color = currentColor();
   const tbody = document.querySelector("tbody");
   const currentPlayerList = tbody.querySelectorAll(`td.${color}`); // [td, td, td,...]
-  let count = 0;
+  let count = 0; // 自動パスの確認変数
 
   for (const td of currentPlayerList) {
     const [x, y] = getXY(td);
+
     const CountR = rightCount(x, y);
     const CountL = leftCount(x, y);
     const CountT = topCount(x, y);
@@ -176,6 +180,7 @@ hint_btn.addEventListener(`click`, () => {});
 
 //Game end
 const result_screen = document.getElementById("result_screen");
+
 function game_result_screen() {
   const tbody = document.querySelector("tbody");
   const scoreWhiteCount = tbody.querySelectorAll("td.white");
@@ -189,7 +194,7 @@ function game_result_screen() {
     winner.innerHTML = `<img src="img/white-removebg.png" alt="" width="280px" height="280px">`;
     console.log("WHITE");
   } else {
-    console.log("draw");
+    alert("Draw");
   }
 
   result_screen.classList.add("show");
@@ -408,10 +413,11 @@ function rightCount(x, y) {
   const tbody = document.querySelector("tbody");
   const tdXY = tbody.children[y].children[x];
   for (let index = 1; x + index <= 7; index++) {
-    if (tbody.children[y].children[x + 1].className == "table_block") return 0;
+    if (tbody.children[y].children[x + 1].className == "table_block") return 0; // 空きマスなのか
     let td = tbody.children[y].children[x + index];
-    if (td.className == tdXY.className) return 0;
+    if (td.className == tdXY.className) return 0; // (x,y)の石と同じ色なのか
     if (td.className == "table_block") {
+      // 空きマス(置けれるところ)があればreturn
       return 1;
     }
   }

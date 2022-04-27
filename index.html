@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,184 +12,184 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-    href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Patrick+Hand&family=Permanent+Marker&display=swap"
-    rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Patrick+Hand&family=Permanent+Marker&display=swap"
+      rel="stylesheet"
     />
-</head>
+  </head>
 
-<body>
+  <body>
     <!-- Start Screen -->
     <div class="start_screen show">
-        <div class="start_title">
-            <div class="title_animation">
-                <p class="title_name">Othello</p>
-            </div>
+      <div class="start_title">
+        <div class="title_animation">
+          <p class="title_name">Othello</p>
         </div>
-        <div class="start_btn">
-            <button class="play_btn" id="start">Start</button>
-        </div>
+      </div>
+      <div class="start_btn">
+        <button class="play_btn" id="start">Start</button>
+      </div>
     </div>
 
     <!-- Game Screen -->
     <div class="game_all_screen show">
-        <div class="game_screen">
-            <div class="toggle_switch">
-                <input type="checkbox" id="switch" class="checkbox" />
-                <label for="switch" class="toggle"></label>
-            </div>
-            <div class="game_container">
-                <div class="cat_box"> 
-                    <div class="cat">
-                        <img
-                            src="img/black-removebg.png"
-                            alt=""
-                            width="280px"
-                            height="280px"
-                        />
-                    </div>
-                    <div class="score_box">
-                        <div class="cat_name">
-                            <p class="cat_text">BLACK</p>
-                        </div>
-                        <div class="cat_score">
-                            <p id="black_score" class="score">2</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="table_box">
-                    <table class="game_table" id="game_table">
-                        <tr class="table_line">
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                        </tr>
-                        <tr class="table_line">
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                        </tr>
-                        <tr class="table_line">
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                        </tr>
-                        <tr class="table_line">
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block white"></td>
-                            <td class="table_block black"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                        </tr>
-                        <tr class="table_line">
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block black"></td>
-                            <td class="table_block white"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                        </tr>
-                        <tr class="table_line">
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                        </tr>
-                        <tr class="table_line">
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                        </tr>
-                        <tr class="table_line">
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                            <td class="table_block"></td>
-                        </tr>
-                    </table>
-                    <div class="reset_hint_btn">
-                        <div class="r_h_btn">
-                            <button class="reset_btn">reset</button>
-                        </div>
-                        <div class="r_h_btn">
-                            <button class="hint_btn">hint</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="cat_box">
-                    <div class="cat">
-                        <img
-                            src="img/white-removebg.png"
-                            alt=""
-                            width="280px"
-                            height="280"
-                        />
-                    </div>
-                    <div class="score_box">
-                        <div class="cat_name"><p class="cat_text">WHITE</p></div>
-                        <div class="cat_score">
-                            <p id="white_score" class="score">2</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="game_screen">
+        <div class="toggle_switch">
+          <input type="checkbox" id="switch" class="checkbox" />
+          <label for="switch" class="toggle"></label>
         </div>
+        <div class="game_container">
+          <div class="cat_box">
+            <div class="cat">
+              <img
+                src="img/black-removebg.png"
+                alt=""
+                width="280px"
+                height="280px"
+              />
+            </div>
+            <div class="score_box">
+              <div class="cat_name">
+                <p class="cat_text">BLACK</p>
+              </div>
+              <div class="cat_score">
+                <p id="black_score" class="score">2</p>
+              </div>
+            </div>
+          </div>
+          <div class="table_box">
+            <table class="game_table" id="game_table">
+              <tr class="table_line">
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+              </tr>
+              <tr class="table_line">
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+              </tr>
+              <tr class="table_line">
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+              </tr>
+              <tr class="table_line">
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block white"></td>
+                <td class="table_block black"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+              </tr>
+              <tr class="table_line">
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block black"></td>
+                <td class="table_block white"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+              </tr>
+              <tr class="table_line">
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+              </tr>
+              <tr class="table_line">
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+              </tr>
+              <tr class="table_line">
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+                <td class="table_block"></td>
+              </tr>
+            </table>
+            <div class="reset_hint_btn">
+              <div class="r_h_btn">
+                <button class="reset_btn">reset</button>
+              </div>
+              <div class="r_h_btn">
+                <button class="hint_btn">hint</button>
+              </div>
+            </div>
+          </div>
+          <div class="cat_box">
+            <div class="cat">
+              <img
+                src="img/white-removebg.png"
+                alt=""
+                width="280px"
+                height="280"
+              />
+            </div>
+            <div class="score_box">
+              <div class="cat_name"><p class="cat_text">WHITE</p></div>
+              <div class="cat_score">
+                <p id="white_score" class="score">2</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Result Screen -->
     <div class="result_screen" id="result_screen">
-    <div class="result_container">
+      <div class="result_container">
         <div id="victory_cat"></div>
         <div class="result_winner">
-        <p class="winner">Winner</p>
+          <p class="winner">Winner</p>
         </div>
         <div class="score_check">
-        <div class="score_box">
+          <div class="score_box">
             <p class="result_text"><u>black</u></p>
             <p id="black_score_result" class="score_result"></p>
-        </div>
-        <div class="score_box">
+          </div>
+          <div class="score_box">
             <p class="result_text"><u>white</u></p>
             <p id="white_score_result" class="score_result"></p>
+          </div>
         </div>
-        </div>
-    </div>
-    <div class="restart">
+      </div>
+      <div class="restart">
         <button class="restart_btn" id="restart">restart</button>
-    </div>
+      </div>
     </div>
     <div id="overlay"></div>
-</body>
+  </body>
 </html>
