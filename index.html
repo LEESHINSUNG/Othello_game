@@ -1,32 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>オセロ</title>
     <!-- <script src="style.css"></script> -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <script src="main.js" defer></script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Patrick+Hand&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+    href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Patrick+Hand&family=Permanent+Marker&display=swap"
+    rel="stylesheet"
+    />
 </head>
 
 <body>
-    <!-- 
-    流れ：
-        １．UIを作成するーHTML/CSSだけ
-        ２．動きをつけていくーボタンを押したら、何かなる。クリックしたら何か動く。
-    
-    テーブル：
-        <table>, <ul>, <div>  
-    -->
-
-
-    
     <!-- Start Screen -->
     <div class="start_screen show">
         <div class="start_title">
@@ -43,17 +34,26 @@
     <div class="game_all_screen show">
         <div class="game_screen">
             <div class="toggle_switch">
-                <input type="checkbox" id="switch" class="checkbox">
+                <input type="checkbox" id="switch" class="checkbox" />
                 <label for="switch" class="toggle"></label>
             </div>
             <div class="game_container">
-                <div class="cat_box">
+                <div class="cat_box"> 
                     <div class="cat">
-                        <img src="img/black-removebg.png" alt="" width="280px" height="280px">
+                        <img
+                            src="img/black-removebg.png"
+                            alt=""
+                            width="280px"
+                            height="280px"
+                        />
                     </div>
                     <div class="score_box">
-                        <div class="cat_name"><p class="cat_text">BLACK</p></div>
-                        <div class="cat_score"><p class="black_score">aa</p></div>
+                        <div class="cat_name">
+                            <p class="cat_text">BLACK</p>
+                        </div>
+                        <div class="cat_score">
+                            <p id="black_score" class="score">2</p>
+                        </div>
                     </div>
                 </div>
                 <div class="table_box">
@@ -137,7 +137,7 @@
                             <td class="table_block"></td>
                             <td class="table_block"></td>
                             <td class="table_block"></td>
-                        </tr>              
+                        </tr>
                     </table>
                     <div class="reset_hint_btn">
                         <div class="r_h_btn">
@@ -150,42 +150,46 @@
                 </div>
                 <div class="cat_box">
                     <div class="cat">
-                        <img src="img/white-removebg.png" alt="" width="280px" height="280">
+                        <img
+                            src="img/white-removebg.png"
+                            alt=""
+                            width="280px"
+                            height="280"
+                        />
                     </div>
                     <div class="score_box">
                         <div class="cat_name"><p class="cat_text">WHITE</p></div>
-                        <div class="cat_score"><p class="white_score">aa</p></div>
+                        <div class="cat_score">
+                            <p id="white_score" class="score">2</p>
+                        </div>
                     </div>
                 </div>
-            </div>    
-            
+            </div>
         </div>
     </div>
 
     <!-- Result Screen -->
-    <div class="result_screen" id="result_screen"> 
-        <div class="result_container">
-            <div class="result_cat">
-                <img src="img/black-removebg.png" alt="" width="300px" height="auto">
-            </div>
-            <div class="result_winner">
-                <p class="winner">Winner</p>
-            </div>
-            <div class="number_check">
-                <div class="black_check">
-                    <p class="black_no">black : </p>
-                </div>
-                <div class="white_check">
-                    <p class="white_no">white : </p>
-                </div>
-            </div>
+    <div class="result_screen" id="result_screen">
+    <div class="result_container">
+        <div id="victory_cat"></div>
+        <div class="result_winner">
+        <p class="winner">Winner</p>
         </div>
-        <div class="restart">
-            <button class="restart_btn" id="restart">restart</button>
+        <div class="score_check">
+        <div class="score_box">
+            <p class="result_text"><u>black</u></p>
+            <p id="black_score_result" class="score_result"></p>
+        </div>
+        <div class="score_box">
+            <p class="result_text"><u>white</u></p>
+            <p id="white_score_result" class="score_result"></p>
+        </div>
         </div>
     </div>
-
+    <div class="restart">
+        <button class="restart_btn" id="restart">restart</button>
+    </div>
+    </div>
     <div id="overlay"></div>
 </body>
-
 </html>

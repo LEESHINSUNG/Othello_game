@@ -1,324 +1,348 @@
 body {
     background-color: whitesmoke;
     margin:0;
-    }
+}
     
-    
-    /* Start Screen */
-    .start_screen {
-        position: absolute;
-        z-index: 5;
-        width: 100%;
-        height: 100%;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: rgb(163, 153, 255);
-        display: none;
-    }
-    
-    .start_screen.show{
-        display: block;
-    }
-    
-    
-    .title_name {
-        margin: 160px 0px 110px 0px;
-        display: flex;
-        justify-content: center;
-        font-size: 250px;
-        font-family: 'Patrick Hand', cursive;
-        animation-name: title_jump;
-        animation-timing-function: cubic-bezier(0.6, 0, 1, 1);
-        animation-iteration-count: infinite;
-        animation-direction: alternate;
-        animation-duration: 1s;
-    }
-    
-    @keyframes title_jump {
-        from {
-            transform:translate(0,-20px);
-        }
-        
-        to {
-            transform: translate(0,0px);
-        }
-    }
-    
-    .start_btn {
-        display: flex;
-        justify-content: center;
-    }
-    
-    .play_btn {
-        color: rgb(163, 153, 255);
-        font-size: 50px;
-        font-family: 'Patrick Hand', cursive;
-        background-color: rgb(233, 255, 110);
-        width: 160px;
-        height: 80px;
-        border: none;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        font-weight: bolder;
-        transition: 0.1s;
-        cursor: pointer;
-    }
-    
-    .play_btn:hover {
-        color: black;
-        border: 4px solid rgb(0, 0, 0);
-        background-color: rgb(247, 250, 78);
-    }
-    
-    
-    /* Toggle switch */
-    .toggle_switch {
-        position: relative;
-        width: 100px;
-        height: 54px;
-        margin: auto;
-        margin-bottom: 15px;
-        margin-top: 1.5%;   
-    }
-    
-    .toggle {
-        position: relative;
-        display: block;
-        width: 100%;
-        height: 100%;
-        background-color: rgb(163, 153, 255);
-        border-radius: 30px;
-        border: 3px solid rgb(0, 0, 0);
-        transition: 0.5s;
-    }
-    
-    .toggle::after {
-        content: "";
-        position: absolute;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background-color: rgb(2, 1, 1);
-        top: 2.1px;
-        left: 1px;
-        transition: all 0.5s;
-    }
-    
-    .checkbox:checked + .toggle {
-        border: 3px solid white;
-    }
-    
-    .checkbox:checked + .toggle::after {
-        left: 49px;
-        background-color: white;
-    }
-    
-    .checkbox {
-        display: none;
-    }
-    
-    /* Game Screen */
-    .game_all_screen {
-        position: absolute;
-        z-index: 3;
-        background-color: rgb(163, 153, 255);
-        width: 100%;
-        height: 100%;
-        display: none;
-    }
-    
-    .game_all_screen.show{
-        display: block;
-    }
-    
-    .game_container {
-        display: flex;
-        justify-content: space-around;
-    }
-    
-    .cat_box {
-        display: block;
-    }
+/* <-- Start Screen --> */
+.start_screen {
+    position: absolute;
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(163, 153, 255);
+    display: none;
+}
 
-    .cat {
-        display: flex;
-        padding-top: 20%;
-        padding-bottom: 10%;
-    }
-
-    .score_box{
-        display: flex;
-        flex-direction: column;
-    }
-
-    .cat_score, .cat_name {
-        justify-self: center;
-        margin: auto;
-    }
-
-    .cat_text {
-        font-size: 60px;
-        font-weight: 900;
-        font-family: 'Patrick Hand', cursive;
-        margin-top: 0px;
-        margin-bottom: 30px;
-    }
-
-    .cat_score {
-        width: 100px;
-        height: 40px;
-        border: 3px solid;
-        border-radius: 8%;
-    }
-
-    .black_score, .white_score {
-        margin: 0;
-    }
+.start_screen.show{
+    display: block;
+}
 
 
-    td.white::after {
-        content: '';
-        position: absolute;
-        display: block;
-        width: 80%;
-        height: 80%;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        border-radius: 50%;
-        background-color: white;
+.title_name {
+    margin: 160px 0px 110px 0px;
+    display: flex;
+    justify-content: center;
+    font-size: 250px;
+    font-family: 'Patrick Hand', cursive;
+    animation-name: title_jump;
+    animation-timing-function: cubic-bezier(0.6, 0, 1, 1);
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-duration: 1s;
+}
+
+@keyframes title_jump {
+    from {
+        transform:translate(0,-20px);
     }
-    
-    td.black::after {
-        content: '';
-        position: absolute;
-        display: block;
-        width: 80%;
-        height: 80%;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        border-radius: 50%;
-        background-color: black;
+    to {
+        transform: translate(0,0px);
     }
+}
+
+.start_btn {
+    display: flex;
+    justify-content: center;
+}
+
+.play_btn {
+    color: rgb(163, 153, 255);
+    font-size: 50px;
+    font-family: 'Patrick Hand', cursive;
+    background-color: rgb(233, 255, 110);
+    width: 160px;
+    height: 80px;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    font-weight: bolder;
+    transition: 0.1s;
+    cursor: pointer;
+}
+
+.play_btn:hover {
+    color: black;
+    border: 4px solid rgb(0, 0, 0);
+    background-color: rgb(247, 250, 78);
+}
     
     
-    .white_cat_box {
-        display: flex;
-        align-items: center;
+/* <-- Toggle switch --> */
+.toggle_switch {
+    position: relative;
+    width: 100px;
+    height: 54px;
+    margin: auto;
+    margin-bottom: 15px;
+    margin-top: 1.5%;   
+}
+
+.toggle {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(163, 153, 255);
+    border-radius: 30px;
+    border: 3px solid rgb(0, 0, 0);
+    transition: 0.5s;
+}
+
+.toggle::after {
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgb(2, 1, 1);
+    top: 2.1px;
+    left: 1px;
+    transition: all 0.5s;
+}
+
+.checkbox:checked + .toggle {
+    border: 3px solid white;
+}
+
+.checkbox:checked + .toggle::after {
+    left: 49px;
+    background-color: white;
+}
+
+.checkbox {
+    display: none;
+}
+
+/* Game Screen */
+.game_all_screen {
+    position: absolute;
+    z-index: 3;
+    background-color: rgb(163, 153, 255);
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.game_all_screen.show{
+    display: block;
+}
+
+.game_container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.cat_box {
+    display: block;
+    font-family: 'Patrick Hand', cursive;
+}
+
+.cat {
+    display: flex;
+    padding-top: 20%;
+    padding-bottom: 10%;
+}
+
+.score_box{
+    display: flex;
+    flex-direction: column;
+}
+
+.cat_score, .cat_name {
+    justify-self: center;
+    margin: auto;
+}
+
+.cat_text {
+    font-size: 60px;
+    font-weight: 900;
+    margin-top: 0px;
+    margin-bottom: 30px;
+}
+
+.cat_score {
+    width: 100px;
+    height: 40px;
+    border: 3px solid;
+    border-radius: 8%;
+}
+
+.score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+}
+
+.black_score, .white_score {
+    margin: 0;
+}
+
+
+td.white::after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 80%;
+    height: 80%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-color: white;
+}
+
+td.black::after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 80%;
+    height: 80%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-color: black;
+}
+
+
+.white_cat_box {
+    display: flex;
+    align-items: center;
+}
+
+.game_table {
+    background-color: rgb(46, 255, 27);
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+
+.table_line {
+    cursor: pointer;
+}
+
+.table_block {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    border: 1px solid black;
+} 
+
+.reset_hint_btn {
+    display: flex;
+    justify-content: space-between;
+}
+
+.reset_btn, .hint_btn{
+    font-family: 'Patrick Hand', cursive;
+    font-size: 35px;
+    border: 2px solid;
+    border-radius: 15%;
+    transition: 0.2s;
+    background-color: rgb(206, 206, 206);
+    cursor: pointer;
+}
+
+.reset_btn:hover, .hint_btn:hover{
+    background-color: yellow;
+}
+
+
+/* <-- Result Screen --> */
+.result_screen {
+    z-index: 10;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid;
+    border-radius: 3%;
+    padding: 50px 30px 20px 30px;
+    background-color: whitesmoke;
+    display: none;
+}
+
+.result_screen.show{
+    display: block;
+}
+
+.result_screen.show + #overlay {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, .7);
+    z-index: 3;
+}
+
+.winner {
+    font-size: 70px;
+    font-family: 'Permanent Marker', cursive;
+    margin: 20px 0 30px 0;
+    color: #f35626;
+    background-image: linear-gradient(92deg, #f35626, #feab3a);
+    -webkit-background-clip: text;
+    animation: hue 1s infinite linear;
+}
+
+@keyframes hue {
+    from {
+        -webkit-filter: hue-rotate(0deg);
     }
-    
-    .game_table {
-        background-color: rgb(46, 255, 27);
-        margin-bottom: 20px;
-        border-collapse: collapse;
+    to {
+        -webkit-filter: hue-rotate(-360deg);
     }
+}
+
+.victory_cat, .result_winner, .number_check, .restart {
+    display: flex;
+    justify-content: center;
+}
+
+.score_check {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 30px;
+}
+
+.score_box{
+    display: flex;
+    justify-content: space-between;
+}
+
+.result_text {
+    font-size: 50px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.score_result {
+    display: flex;
+    justify-content: center;
+    font-size: 50px;
+    margin-top: 10px;
     
-    .table_line {
-        cursor: pointer;
-    }
-    
-    .table_block {
-        position: relative;
-        width: 70px;
-        height: 70px;
-        border: 1px solid black;
-    } 
-    
-    .reset_hint_btn {
-        display: flex;
-        justify-content: space-between;
-    }
-    
-    .reset_btn, .hint_btn{
-        font-family: 'Patrick Hand', cursive;
-        font-size: 35px;
-        border: 2px solid;
-        border-radius: 15%;
-        transition: 0.2s;
-        background-color: rgb(206, 206, 206);
-        cursor: pointer;
-    }
-    
-    .reset_btn:hover, .hint_btn:hover{
-        background-color: yellow;
-    }
-    
-    
-    /* Result Screen */
-    .result_screen {
-        z-index: 10;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        border: 2px solid;
-        border-radius: 3%;
-        padding: 50px 50px 20px 30px;
-        background-color: whitesmoke;
-        display: none;
-    }
-    
-    .result_screen.show{
-        display: block;
-    }
-    
-    /* 宿題 */
-    .result_screen.show + #overlay {
-        position: fixed;
-        width: 100vw;
-        height: 100vh;
-        top: 0;
-        left: 0;
-        background-color: rgba(0, 0, 0, .7);
-        z-index: 3;
-    }
-    
-    .winner {
-        font-size: 70px;
-        font-family: 'Permanent Marker', cursive;
-        margin: 50px 0 30px 0;
-        color: #f35626;
-        background-image: linear-gradient(92deg, #f35626, #feab3a);
-        -webkit-background-clip: text;
-        animation: hue 1s infinite linear;
-    }
-    
-    @keyframes hue {
-        from {
-            -webkit-filter: hue-rotate(0deg);
-        }
-        to {
-            -webkit-filter: hue-rotate(-360deg);
-        }
-    }
-    
-    .result_cat, .result_winner, .number_check, .restart {
-        display: flex;
-        justify-content: center;
-    }
-    
-    .number_check {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-        font-family: 'Patrick Hand', cursive;
-        font-size: 30px;
-    }
-    
-    .restart_btn {
-        font-family: 'Patrick Hand', cursive;
-        font-size: 35px;
-        border: 2px solid;
-        border-radius: 15%;
-        transition: 0.2s;
-        background-color: rgb(206, 206, 206);
-        cursor: pointer;
-    }
-    
-    .restart_btn:hover {
-        background-color: yellow;    
-    }
-    
-    
+}
+
+.restart_btn {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 35px;
+    border: 2px solid;
+    border-radius: 15%;
+    transition: 0.2s;
+    background-color: rgb(206, 206, 206);
+    cursor: pointer;
+}
+
+.restart_btn:hover {
+    background-color: yellow;    
+}

@@ -1,60 +1,61 @@
-/* <-- Game Screen --> */
-// Stone Color 石の色
-const WHITE = 0; // WHITE
-const BLACK = 1; //BLACK
-let turn = BLACK; // 'black'
+/* <-- Start Scren --> */
 
-/* Change turn */
-const toggle_switch = document.getElementById("switch"); // 誰のターンなのか
-
-function change_turn() {
-  if (turn === BLACK) {
-    turn = WHITE;
-  } else {
-    turn = BLACK;
-  }
-}
-
-/* Gmae table ゲームテーブル */
-const table_block_all = document.querySelectorAll(".table_block");
-
-
-
-/* Start Button */
+// Start Button スタートボタン
 const start = document.getElementById("start");
 const start_screen = document.querySelector(".start_screen");
 start.addEventListener(`click`, () => {
   start_screen.classList.remove("show");
 });
 
-/* Restart Button */
-const restart = document.getElementById("restart");
-restart.addEventListener(`click`, () => {
-  reset_restart_game();
-  result_screen.classList.add("show");
-});
+/* <-- Game Screen --> */
 
+/* Gmae table ゲームテーブル */
+const table_block_all = document.querySelectorAll(".table_block");
 
+// Stone Color 石の色
+const WHITE = 0; // WHITE
+const BLACK = 1; //BLACK
+let turn = BLACK; // 'black'
+
+// Turn condition (toggle switch) 誰のターンなのか
+const toggle_switch = document.getElementById("switch");
 
 function currentColor() {
   return turn === BLACK ? "black" : "white";
 }
 
-// /* Create div on click */
+// Game score & result
+const scoreWhite = document.getElementById("white_score"); // (game screen　ゲームスクリーン)
+const scoreBlack = document.getElementById("black_score");
+const scoreWhiteResult = document.getElementById("white_score_result"); // (result screen　結果スクリーン)
+const scoreBlackResult = document.getElementById("black_score_result");
+const winner = document.getElementById("victory_cat");
+
+// Restart Button
+const restart = document.getElementById("restart");
+restart.addEventListener(`click`, () => {
+  reset_restart_game();
+  result_screen.classList.remove("show");
+});
+
+// countPlaces(); => hintで使う予定
+
+// Put stone on the table 石を置くためマスをクリック
 table_block_all.forEach((stone, index, stone_all) => {
   stone.addEventListener(`click`, () => {
     if (stone.className !== "table_block") {
-      console.log("無視");
+      // 空きマスではない
       return;
     }
 
-    // x,y noshutoku
+    // Position of stones (x,y) 石の位置
     const x = stone.cellIndex;
     const y = stone.parentElement.rowIndex;
     const tbody = document.querySelector("tbody");
     const putStone = tbody.children[y].children[x];
     console.log(`click Position : ${x}, ${y}`); // クリックしたポジションのチェック用
 
+    // Reverse color 色を変える（石を裏返す）
     const Right = checkRight(x, y);
     const Left = checkLeft(x, y);
     const Top = checkTop(x, y);
@@ -64,7 +65,6 @@ table_block_all.forEach((stone, index, stone_all) => {
     const BottomRight = checkBottomRight(x, y);
     const BottomLeft = checkBottomLeft(x, y);
 
-    //
     if (
       Right == 1 ||
       Left == 1 ||
@@ -76,42 +76,126 @@ table_block_all.forEach((stone, index, stone_all) => {
       BottomLeft == 1
     ) {
       if (turn === BLACK) {
-        console.log("Turn was black");
-        putStone.classList.add("black");
+        putStone.classList.add("black"); //　黒石を置く
         turn = WHITE;
         toggle_switch.click();
       } else {
-        console.log("Turn was white");
-        putStone.classList.add("white");
+        putStone.classList.add("white"); // 白石を置く
         turn = BLACK;
         toggle_switch.click();
       }
     }
 
+    // 色の数を表示（モニタリング）
+    socreCheck(tbody);
 
     // 新しいプレイヤーは何か所に置けれるかを敬さん
-    const count = countPlaces()
+    const count = countPlaces();
 
-    if (count == 0) switchPlayer()
-
+    if (count == 0) {
+      if (turn === BLACK) {
+        turn = WHITE;
+        toggle_switch.click();
+        countPlaces();
+        if (count == 0) {
+          game_result_screen(tbody);
+          console.log("Double Pass");
+          return 0;
+        }
+      } else {
+        turn = BLACK;
+        toggle_switch.click();
+        if (count == 0) {
+          game_result_screen(tbody);
+          console.log("Double Pass");
+          return 0;
+        }
+      }
+      alert("置く場所なし");
+    }
   });
 });
 
-
-function countPlaces(){
-  const color = currentColor()
-  const currentPlayerList = tbody.querySelectorAll(`td.${color}`)
-  let count = 0
-
-  for (const td of currentPlayerList) {
-    count ++  
-  }
-
-
-  return 5
+function socreCheck(tbody) {
+  const scoreWhiteCount = tbody.querySelectorAll("td.white");
+  const scoreBlackCount = tbody.querySelectorAll("td.black");
+  scoreWhite.innerHTML = scoreWhiteCount.length;
+  scoreBlack.innerHTML = scoreBlackCount.length;
+  scoreWhiteResult.innerHTML = scoreWhiteCount.length;
+  scoreBlackResult.innerHTML = scoreBlackCount.length;
 }
 
+function getXY(td) {
+  const x = td.cellIndex;
+  const y = td.parentElement.rowIndex;
+  return [x, y];
+}
 
+function countPlaces() {
+  const color = currentColor();
+  const tbody = document.querySelector("tbody");
+  const currentPlayerList = tbody.querySelectorAll(`td.${color}`); // [td, td, td,...]
+  let count = 0;
+
+  for (const td of currentPlayerList) {
+    const [x, y] = getXY(td);
+    const CountR = rightCount(x, y);
+    const CountL = leftCount(x, y);
+    const CountT = topCount(x, y);
+    const CountB = bottomCount(x, y);
+    const CountTR = topRightCount(x, y);
+    const CountTL = topLeftCount(x, y);
+    const CountBR = bottomRightCount(x, y);
+    const CountBL = bottomLeftCount(x, y);
+
+    if (
+      CountR == 1 ||
+      CountL == 1 ||
+      CountT == 1 ||
+      CountB == 1 ||
+      CountTR == 1 ||
+      CountTL == 1 ||
+      CountBR == 1 ||
+      CountBL == 1
+    ) {
+      count++;
+    }
+  }
+  return count;
+}
+
+//Reset Button
+const reset_btn = document.querySelector(".reset_btn");
+reset_btn.addEventListener("click", () => {
+  reset_restart_game();
+});
+
+//Hint Button
+const hint_btn = document.querySelector(".hint_btn");
+hint_btn.addEventListener(`click`, () => {});
+
+//Game end
+const result_screen = document.getElementById("result_screen");
+function game_result_screen() {
+  const tbody = document.querySelector("tbody");
+  const scoreWhiteCount = tbody.querySelectorAll("td.white");
+  const scoreBlackCount = tbody.querySelectorAll("td.black");
+  socreCheck(tbody);
+
+  if (scoreBlackCount.length > scoreWhiteCount.length) {
+    winner.innerHTML = `<img src="img/black-removebg.png" alt="" width="280px" height="280px">`;
+    console.log("BLACK");
+  } else if (scoreBlackCount.length < scoreWhiteCount.length) {
+    winner.innerHTML = `<img src="img/white-removebg.png" alt="" width="280px" height="280px">`;
+    console.log("WHITE");
+  } else {
+    console.log("draw");
+  }
+
+  result_screen.classList.add("show");
+}
+
+//Reverse color
 function reverse(td) {
   if (turn === BLACK) {
     td.classList.remove("white");
@@ -122,20 +206,45 @@ function reverse(td) {
   }
 }
 
+//Reset/Restart_function
+function reset_restart_game() {
+  const allBlackStone = document.querySelectorAll(".black");
+  const allWhiteStone = document.querySelectorAll(".white");
+  const tbody = document.querySelector("tbody");
+  allBlackStone.forEach((allBlackStone, index, removeAllBlackStone) => {
+    allBlackStone.classList.remove("black");
+  });
+  allWhiteStone.forEach((allWhiteStone, index, removeAllWhiteStone) => {
+    allWhiteStone.classList.remove("white");
+  });
+  table_block_all[27].classList.add("white");
+  table_block_all[28].classList.add("black");
+  table_block_all[35].classList.add("black");
+  table_block_all[36].classList.add("white");
+  if (turn === WHITE) {
+    toggle_switch.click();
+  }
+  turn = BLACK;
+  socreCheck(tbody);
+}
+
+//Check function (reverse color)
 function checkRight(x, y) {
   const tbody = document.querySelector("tbody");
   let hasAnyOppositeColor = false; //　前に違う色があるか
   for (let row = x + 1; row <= 7; row++) {
     let td = tbody.children[y].children[row];
-    if (td.className == "table_block") return 0;
+    if (td.className == "table_block") return 0; // 空きマスだったらreturn
     if (!td.classList.contains(currentColor())) {
+      // 今のターンの色と違うのか
       hasAnyOppositeColor = true;
     }
-    if (td.classList.contains(currentColor()) && hasAnyOppositeColor === false) return 0;
+    if (td.classList.contains(currentColor()) && hasAnyOppositeColor === false)
+      return 0; // 同じラインにある石の色を全部変えるのを防ぐため
     if (td.classList.contains(currentColor()) && hasAnyOppositeColor === true) {
       for (row_r = row - 1; row_r > x; row_r--) {
         let changePosition = tbody.children[y].children[row_r];
-        reverse(changePosition);
+        reverse(changePosition); // 色を変える
       }
       return 1;
     }
@@ -151,7 +260,8 @@ function checkLeft(x, y) {
     if (!td.classList.contains(currentColor())) {
       hasAnyOppositeColor = true;
     }
-    if (td.classList.contains(currentColor()) && hasAnyOppositeColor === false) return 0;
+    if (td.classList.contains(currentColor()) && hasAnyOppositeColor === false)
+      return 0;
     if (td.classList.contains(currentColor()) && hasAnyOppositeColor === true) {
       for (let row_l = row + 1; row_l < x; row_l++) {
         let changePosition = tbody.children[y].children[row_l];
@@ -171,7 +281,8 @@ function checkTop(x, y) {
     if (!td.classList.contains(currentColor())) {
       hasAnyOppositeColor = true;
     }
-    if (td.classList.contains(currentColor()) && hasAnyOppositeColor === false) return 0;
+    if (td.classList.contains(currentColor()) && hasAnyOppositeColor === false)
+      return 0;
     if (td.classList.contains(currentColor()) && hasAnyOppositeColor === true) {
       for (let col_t = col + 1; col_t < y; col_t++) {
         let changePosition = tbody.children[col_t].children[x];
@@ -191,7 +302,8 @@ function checkBottom(x, y) {
     if (!td.classList.contains(currentColor())) {
       hasAnyOppositeColor = true;
     }
-    if (td.classList.contains(currentColor()) && hasAnyOppositeColor === false) return 0;
+    if (td.classList.contains(currentColor()) && hasAnyOppositeColor === false)
+      return 0;
     if (td.classList.contains(currentColor()) && hasAnyOppositeColor === true) {
       for (let col_b = col - 1; col_b > y; col_b--) {
         let changePosition = tbody.children[col_b].children[x];
@@ -205,27 +317,21 @@ function checkBottom(x, y) {
 function checkTopRight(x, y) {
   const tbody = document.querySelector("tbody");
   let hasAnyOppositeColor = false; //　前に違う色があるか
-  for (let row = x + 1; row <= 7; row++) {
-    for (let col = y - 1; col >= 0; col--) {
-      if (x + y === row + col) {
-        let td = tbody.children[col].children[row];
-        if (td.className == "table_block") return 0;
-        if (!td.classList.contains(currentColor())) {
-          hasAnyOppositeColor = true;
-        }
-        if (td.classList.contains(currentColor()) && hasAnyOppositeColor === false) return 0;
-        if (td.classList.contains(currentColor()) && hasAnyOppositeColor === true) {
-          for (let col_r = col + 1; col_r < y; col_r++) {
-            for (let row_r = row - 1; row_r > x; row_r--) {
-              if (x + y == row_r + col_r) {
-                let changePosition = tbody.children[col_r].children[row_r];
-                reverse(changePosition);
-              }
-            }
-          }
-          return 1;
-        }
+  for (let index = 1; x + index <= 7 && y - index >= 0; index++) {
+    let td = tbody.children[y - index].children[x + index];
+    if (td.className == "table_block") return 0;
+    if (!td.classList.contains(currentColor())) {
+      hasAnyOppositeColor = true;
+    }
+    if (td.classList.contains(currentColor()) && hasAnyOppositeColor === false)
+      return 0;
+    if (td.classList.contains(currentColor()) && hasAnyOppositeColor === true) {
+      for (let num = 1; x + index - num >= x && y - index + num <= y; num++) {
+        let changePosition =
+          tbody.children[y - index + num].children[x + index - num];
+        reverse(changePosition);
       }
+      return 1;
     }
   }
 }
@@ -233,27 +339,21 @@ function checkTopRight(x, y) {
 function checkBottomLeft(x, y) {
   const tbody = document.querySelector("tbody");
   let hasAnyOppositeColor = false; //　前に違う色があるか
-  for (let row = x - 1; row >= 0; row--) {
-    for (let col = y + 1; col <= 7; col++) {
-      if (x + y === row + col) {
-        let td = tbody.children[col].children[row];
-        if (td.className == "table_block") return 0;
-        if (!td.classList.contains(currentColor())) {
-          hasAnyOppositeColor = true;
-        }
-        if (td.classList.contains(currentColor()) && hasAnyOppositeColor === false) return 0;
-        if (td.classList.contains(currentColor()) && hasAnyOppositeColor === true) {
-          for (let col_l = col - 1; col_l > y; col_l--) {
-            for (let row_l = row + 1; row_l < x; row_l++) {
-              if (x + y == row_l + col_l) {
-                let changePosition = tbody.children[col_l].children[row_l];
-                reverse(changePosition);
-              }
-            }
-          }
-          return 1;
-        }
+  for (let index = 1; x - index >= 0 && y + index <= 7; index++) {
+    let td = tbody.children[y + index].children[x - index];
+    if (td.className == "table_block") return 0;
+    if (!td.classList.contains(currentColor())) {
+      hasAnyOppositeColor = true;
+    }
+    if (td.classList.contains(currentColor()) && hasAnyOppositeColor === false)
+      return 0;
+    if (td.classList.contains(currentColor()) && hasAnyOppositeColor === true) {
+      for (let num = 1; x - index + num <= x && y + index - num >= y; num++) {
+        let changePosition =
+          tbody.children[y + index - num].children[x - index + num];
+        reverse(changePosition);
       }
+      return 1;
     }
   }
 }
@@ -261,27 +361,21 @@ function checkBottomLeft(x, y) {
 function checkTopLeft(x, y) {
   const tbody = document.querySelector("tbody");
   let hasAnyOppositeColor = false; //　前に違う色があるか
-  for (let row = x - 1; row >= 0; row--) {
-    for (let col = y - 1; col >= 0; col--) {
-      if (y - x === col - row) {
-        let td = tbody.children[col].children[row];
-        if (td.className == "table_block") return 0;
-        if (!td.classList.contains(currentColor())) {
-          hasAnyOppositeColor = true;
-        }
-        if (td.classList.contains(currentColor()) && hasAnyOppositeColor === false) return 0;
-        if (td.classList.contains(currentColor()) && hasAnyOppositeColor === true) {
-          for (let col_l = col + 1; col_l < y; col_l++) {
-            for (let row_l = row + 1; row_l < x; row_l++) {
-              if (y - x === col_l - row_l) {
-                let changePosition = tbody.children[col_l].children[row_l];
-                reverse(changePosition);
-              }
-            }
-          }
-          return 1;
-        }
+  for (let index = 1; x - index >= 0 && y - index >= 0; index++) {
+    let td = tbody.children[y - index].children[x - index];
+    if (td.className == "table_block") return 0;
+    if (!td.classList.contains(currentColor())) {
+      hasAnyOppositeColor = true;
+    }
+    if (td.classList.contains(currentColor()) && hasAnyOppositeColor === false)
+      return 0;
+    if (td.classList.contains(currentColor()) && hasAnyOppositeColor === true) {
+      for (let num = 1; x - index + num <= x && y - index + num <= y; num++) {
+        let changePosition =
+          tbody.children[y - index + num].children[x - index + num];
+        reverse(changePosition);
       }
+      return 1;
     }
   }
 }
@@ -289,63 +383,131 @@ function checkTopLeft(x, y) {
 function checkBottomRight(x, y) {
   const tbody = document.querySelector("tbody");
   let hasAnyOppositeColor = false; //　前に違う色があるか
-  for (let row = x + 1; row <= 7; row++) {
-    for (let col = y + 1; col <= 7; col++) {
-      if (y - x === col - row) {
-        let td = tbody.children[col].children[row];
-        if (td.className == "table_block") return 0;
-        if (!td.classList.contains(currentColor())) {
-          hasAnyOppositeColor = true;
-        }
-        if (td.classList.contains(currentColor()) && hasAnyOppositeColor === false) return 0;
-        if (td.classList.contains(currentColor()) && hasAnyOppositeColor === true) {
-          for (let col_r = col - 1; col_r > y; col_r--) {
-            for (let row_r = row - 1; row_r > x; row_r--) {
-              if (col - row === col_r - row_r) {
-                let changePosition = tbody.children[col_r].children[row_r];
-                reverse(changePosition);
-              }
-            }
-          }
-          return 1;
-        }
+  for (let index = 1; x + index <= 7 && y + index <= 7; index++) {
+    let td = tbody.children[y + index].children[x + index];
+    if (td.className == "table_block") return 0;
+    if (!td.classList.contains(currentColor())) {
+      hasAnyOppositeColor = true;
+    }
+    if (td.classList.contains(currentColor()) && hasAnyOppositeColor === false)
+      return 0;
+    if (td.classList.contains(currentColor()) && hasAnyOppositeColor === true) {
+      for (let num = 1; x + index - num >= x && y + index - num >= y; num++) {
+        let changePosition =
+          tbody.children[y + index - num].children[x + index - num];
+        reverse(changePosition);
       }
+      return 1;
+    }
+  }
+  return 0;
+}
+
+//Count Function
+function rightCount(x, y) {
+  const tbody = document.querySelector("tbody");
+  const tdXY = tbody.children[y].children[x];
+  for (let index = 1; x + index <= 7; index++) {
+    if (tbody.children[y].children[x + 1].className == "table_block") return 0;
+    let td = tbody.children[y].children[x + index];
+    if (td.className == tdXY.className) return 0;
+    if (td.className == "table_block") {
+      return 1;
     }
   }
 }
 
-//Reset Button
-const reset_btn = document.querySelector(".reset_btn");
-reset_btn.addEventListener("click", () => {
-  reset_restart_game();
-});
-
-//Reset/Restart_function
-function reset_restart_game() {
-  const allBlackStone = document.querySelectorAll(".black");
-  const allWhiteStone = document.querySelectorAll(".white");
-  allBlackStone.forEach((allBlackStone, index, removeAllBlackStone) => {
-    allBlackStone.classList.remove("black");
-  });
-  allWhiteStone.forEach((allWhiteStone, index, removeAllWhiteStone) => {
-    allWhiteStone.classList.remove("white");
-  });
-  table_block_all[27].classList.add("white");
-  table_block_all[28].classList.add("black");
-  table_block_all[35].classList.add("black");
-  table_block_all[36].classList.add("white");
-  if (turn === WHITE) {
-    toggle_switch.click();
+function leftCount(x, y) {
+  const tbody = document.querySelector("tbody");
+  const tdXY = tbody.children[y].children[x];
+  for (let index = 1; x - index >= 0; index++) {
+    if (tbody.children[y].children[x - 1].className == "table_block") return 0;
+    let td = tbody.children[y].children[x - index];
+    if (td.className == tdXY.className) return 0;
+    if (td.className == "table_block") {
+      return 1;
+    }
   }
-  turn = BLACK;
 }
 
-//Hint Button
-const hint_btn = document.querySelector(".hint_btn");
-hint_btn.addEventListener(`click`, () => {});
+function topCount(x, y) {
+  const tbody = document.querySelector("tbody");
+  const tdXY = tbody.children[y].children[x];
+  for (let index = 1; y - index >= 0; index++) {
+    if (tbody.children[y - 1].children[x].className == "table_block") return 0;
+    let td = tbody.children[y - index].children[x];
+    if (td.className == tdXY.className) return 0;
+    if (td.className == "table_block") {
+      return 1;
+    }
+  }
+}
 
-//Game end
-const result_screen = document.getElementById("result_screen");
-function game_result_screen() {
-  result_screen.classList.remove("show");
+function bottomCount(x, y) {
+  const tbody = document.querySelector("tbody");
+  const tdXY = tbody.children[y].children[x];
+  for (let index = 1; y + index <= 7; index++) {
+    if (tbody.children[y + 1].children[x].className == "table_block") return 0;
+    let td = tbody.children[y + index].children[x];
+    if (td.className == tdXY.className) return 0;
+    if (td.className == "table_block") {
+      return 1;
+    }
+  }
+}
+
+function topRightCount(x, y) {
+  const tbody = document.querySelector("tbody");
+  const tdXY = tbody.children[y].children[x];
+  for (let index = 1; x + index <= 7 && y - index >= 0; index++) {
+    if (tbody.children[y - 1].children[x + 1].className == "table_block")
+      return 0;
+    const td = tbody.children[y - index].children[x + index];
+    if (td.className == tdXY.className) return 0;
+    if (td.className == "table_block") {
+      return 1;
+    }
+  }
+}
+
+function topLeftCount(x, y) {
+  const tbody = document.querySelector("tbody");
+  const tdXY = tbody.children[y].children[x];
+  for (let index = 1; y - index >= 0 && x - index >= 0; index++) {
+    if (tbody.children[y - 1].children[x - 1].className == "table_block")
+      return 0;
+    const td = tbody.children[y - index].children[x - index];
+    if (td.className == tdXY.className) return 0;
+    if (td.className == "table_block") {
+      return 1;
+    }
+  }
+}
+
+function bottomRightCount(x, y) {
+  const tbody = document.querySelector("tbody");
+  const tdXY = tbody.children[y].children[x];
+  for (let index = 1; x + index <= 7 && y + index <= 7; index++) {
+    if (tbody.children[y + 1].children[x + 1].className == "table_block")
+      return 0;
+    const td = tbody.children[y + index].children[x + index];
+    if (td.className == tdXY.className) return 0;
+    if (td.className == "table_block") {
+      return 1;
+    }
+  }
+}
+
+function bottomLeftCount(x, y) {
+  const tbody = document.querySelector("tbody");
+  const tdXY = tbody.children[y].children[x];
+  for (let index = 1; x - index >= 0 && y + index <= 7; index++) {
+    if (tbody.children[y + 1].children[x - 1].className == "table_block")
+      return 0;
+    const td = tbody.children[y + index].children[x - index];
+    if (td.className == tdXY.className) return 0;
+    if (td.className == "table_block") {
+      return 1;
+    }
+  }
 }
