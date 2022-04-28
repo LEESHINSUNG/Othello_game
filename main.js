@@ -45,6 +45,7 @@ table_block_all.forEach((stone, index, stone_all) => {
   stone.addEventListener(`click`, () => {
     if (stone.className !== "table_block") {
       // 空きマスではない
+      alert("もう石があります");
       return;
     }
 
@@ -95,21 +96,23 @@ table_block_all.forEach((stone, index, stone_all) => {
     // 自動パス
     if (count == 0) {
       if (turn === BLACK) {
+        alert("置く場所がないのでパスします");
         turn = WHITE;
         toggle_switch.click();
         countPlaces();
         if (count == 0) {
           // お互いに1回ずつ自動パスしたらゲーム終了
-          game_result_screen(tbody);
-          console.log("Double Pass");
+        alert("お互いに1回ずつパスしましたので終了します");
+        game_result_screen(tbody);
           return 0;
         }
       } else {
+        alert("置く場所がないのでパスします");
         turn = BLACK;
         toggle_switch.click();
         if (count == 0) {
+          alert("お互いに1回ずつパスしましたので終了します");
           game_result_screen(tbody);
-          console.log("Double Pass");
           return 0;
         }
       }
@@ -188,10 +191,10 @@ function game_result_screen() {
   socreCheck(tbody);
 
   if (scoreBlackCount.length > scoreWhiteCount.length) {
-    winner.innerHTML = `<img src="img/black-removebg.png" alt="" width="280px" height="280px">`;
+    winner.innerHTML = `<img class="catWin" src="img/black-removebg.png">`;
     console.log("BLACK");
   } else if (scoreBlackCount.length < scoreWhiteCount.length) {
-    winner.innerHTML = `<img src="img/white-removebg.png" alt="" width="280px" height="280px">`;
+    winner.innerHTML = `<img class="catWin" src="img/white-removebg.png">`;
     console.log("WHITE");
   } else {
     alert("Draw");
