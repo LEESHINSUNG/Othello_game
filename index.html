@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="start_btn">
-        <button class="play_btn btn" id="start">Start</button>
+        <button onclick="startBtn()" class="play_btn btn">Start</button>
       </div>
     </div>
 
@@ -36,7 +36,7 @@
         <div class="toggle_switch">
           <div class="dontClick"></div>
           <input type="checkbox" id="switch" class="checkbox" />
-          <label for="switch" class="turnBLACK"></label>
+          <label for="switch" class="whoIsTurn"></label>
         </div>
         <div class="game_container">
           <div class="cat_box">
@@ -137,9 +137,9 @@
             </table>
             <div class="btn_box">
               <div class="reset_btn_box">
-                <button class="reset_btn btn">reset</button>
+                <button onclick="resetBtn" class="reset_btn btn">reset</button>
               </div>
-              <div class="hint_btn_box">
+              <div onclick="hintBtn" class="hint_btn_box">
                 <button class="hint_btn btn">hint</button>
               </div>
             </div>
@@ -180,7 +180,7 @@
         </div>
       </div>
       <div class="restart">
-        <button class="restart_btn btn" id="restart">restart</button>
+        <button onclick="restartBtn" class="restart_btn btn">restart</button>
       </div>
     </div>
     <div id="overlay"></div>
