@@ -249,15 +249,14 @@ function reset_restart_game() {
 function checkRight(x, y) {
   const tbody = document.querySelector("tbody");
   let hasAnyOppositeColor = false;
-  for (let index = 1; index < 7; index++) {
+  for (let index = 1; index <= 7; index++) {
     let td = tbody.children[y].children[x + index];
     if (td) {
       if (!td.className) return 0;
       if (!td.classList.contains(currentColor())) {
         hasAnyOppositeColor = true;
-        continue; // 同じラインにある石の色を全部変えるのを防ぐため
       } else if (hasAnyOppositeColor === true) {
-        for (index; index > 0; index--) {
+        for (index; index >= 0; index--) {
           let changePosition = tbody.children[y].children[x + index];
           reverse(changePosition); // 色を変える
         }
@@ -270,15 +269,14 @@ function checkRight(x, y) {
 function checkLeft(x, y) {
   const tbody = document.querySelector("tbody");
   let hasAnyOppositeColor = false; //　前に違う色があるか
-  for (let index = 1; index < 7; index++) {
+  for (let index = 1; index <= 7; index++) {
     let td = tbody.children[y].children[x - index];
     if (td) {
       if (!td.className) return 0;
       if (!td.classList.contains(currentColor())) {
         hasAnyOppositeColor = true;
-        continue;
       } else if (hasAnyOppositeColor === true) {
-        for (index; index > 0; index--) {
+        for (index; index >= 0; index--) {
           let changePosition = tbody.children[y].children[x - index];
           reverse(changePosition);
         }
@@ -288,19 +286,31 @@ function checkLeft(x, y) {
   }
 }
 
+/* 
+
+for ..... {
+  if hantaino ishiga attara {
+    continue
+  }
+  break , return 
+
+}
+
+
+*/
+
 function checkTop(x, y) {
   const tbody = document.querySelector("tbody");
   let hasAnyOppositeColor = false; //　前に違う色があるか
-  for (let col = y - 1; col >= 0; col--) {
-    let td = tbody.children[col].children[x];
+  for (let index = 1; index <= 7; index++) {
+    let td = tbody.children[y - index]?.children[x];
     if (td) {
       if (td.className === "") return 0;
       if (!td.classList.contains(currentColor())) {
         hasAnyOppositeColor = true;
-        continue;
       } else if (hasAnyOppositeColor === true) {
-        for (let col_t = col + 1; col_t < y; col_t++) {
-          let changePosition = tbody.children[col_t].children[x];
+        for (index; index >= 0; index--) {
+          let changePosition = tbody.children[y - index]?.children[x];
           reverse(changePosition);
         }
         return 1;
@@ -312,36 +322,36 @@ function checkTop(x, y) {
 function checkBottom(x, y) {
   const tbody = document.querySelector("tbody");
   let hasAnyOppositeColor = false; //　前に違う色があるか
-  for (let col = y + 1; col <= 7; col++) {
-    let td = tbody.children[col].children[x];
+  for (let index = 1; index <= 7; index++) {
+    let td = tbody.children[y + index]?.children[x];
     if (td) {
       if (td.className === "") return 0;
       if (!td.classList.contains(currentColor())) {
         hasAnyOppositeColor = true;
-        continue;
       } else if (hasAnyOppositeColor === true) {
-        for (let col_b = col - 1; col_b > y; col_b--) {
-          let changePosition = tbody.children[col_b].children[x];
+        for (index; index >= 0; index--) {
+          let changePosition = tbody.children[y + index]?.children[x];
           reverse(changePosition);
         }
         return 1;
       } else return 0;
     } else return 0;
   }
+  console.log("out");
 }
 
 function checkTopRight(x, y) {
   const tbody = document.querySelector("tbody");
   let hasAnyOppositeColor = false; //　前に違う色があるか
-  for (let index = 1; index < 7; index++) {
-    let td = tbody.children[y - index].children[x + index];
+  for (let index = 1; index <= 7; index++) {
+    let td = tbody.children[y - index]?.children[x + index];
     if (td) {
       if (td.className === "") return 0;
       if (!td.classList.contains(currentColor())) {
         hasAnyOppositeColor = true;
       } else if (hasAnyOppositeColor === true) {
-        for (index; index > 0; index--) {
-          let changePosition = tbody.children[y - index].children[x + index];
+        for (index; index >= 0; index--) {
+          let changePosition = tbody.children[y - index]?.children[x + index];
           reverse(changePosition);
         }
         return 1;
@@ -353,15 +363,15 @@ function checkTopRight(x, y) {
 function checkBottomLeft(x, y) {
   const tbody = document.querySelector("tbody");
   let hasAnyOppositeColor = false; //　前に違う色があるか
-  for (let index = 1; index < 7; index++) {
-    let td = tbody.children[y + index].children[x - index];
+  for (let index = 1; index <= 7; index++) {
+    let td = tbody.children[y + index]?.children[x - index];
     if (td) {
       if (td.className == "") return 0;
       if (!td.classList.contains(currentColor())) {
         hasAnyOppositeColor = true;
       } else if (hasAnyOppositeColor === true) {
-        for (index; index > 0; index--) {
-          let changePosition = tbody.children[y + index].children[x - index];
+        for (index; index >= 0; index--) {
+          let changePosition = tbody.children[y + index]?.children[x - index];
           reverse(changePosition);
         }
         return 1;
@@ -373,46 +383,41 @@ function checkBottomLeft(x, y) {
 function checkTopLeft(x, y) {
   const tbody = document.querySelector("tbody");
   let hasAnyOppositeColor = false; //　前に違う色があるか
-  for (let index = 1; x - index >= 0 && y - index >= 0; index++) {
-    let td = tbody.children[y - index].children[x - index];
-    if (td.className == "table_block") return 0;
-    if (!td.classList.contains(currentColor())) {
-      hasAnyOppositeColor = true;
-    }
-    if (td.classList.contains(currentColor()) && hasAnyOppositeColor === false)
-      return 0;
-    if (td.classList.contains(currentColor()) && hasAnyOppositeColor === true) {
-      for (let num = 1; x - index + num <= x && y - index + num <= y; num++) {
-        let changePosition =
-          tbody.children[y - index + num].children[x - index + num];
-        reverse(changePosition);
-      }
-      return 1;
-    }
+  for (let index = 1; index <= 7; index++) {
+    let td = tbody.children[y - index]?.children[x - index];
+    if (td) {
+      if (td.className === "") return 0;
+      if (!td.classList.contains(currentColor())) {
+        hasAnyOppositeColor = true;
+      } else if (hasAnyOppositeColor === true) {
+        for (index; index >= 0; index--) {
+          let changePosition = tbody.children[y - index]?.children[x - index];
+          reverse(changePosition);
+        }
+        return 1;
+      } else return 0;
+    } else return 0;
   }
 }
 
 function checkBottomRight(x, y) {
   const tbody = document.querySelector("tbody");
   let hasAnyOppositeColor = false; //　前に違う色があるか
-  for (let index = 1; x + index <= 7 && y + index <= 7; index++) {
-    let td = tbody.children[y + index].children[x + index];
-    if (td.className == "table_block") return 0;
-    if (!td.classList.contains(currentColor())) {
-      hasAnyOppositeColor = true;
-    }
-    if (td.classList.contains(currentColor()) && hasAnyOppositeColor === false)
-      return 0;
-    if (td.classList.contains(currentColor()) && hasAnyOppositeColor === true) {
-      for (let num = 1; x + index - num >= x && y + index - num >= y; num++) {
-        let changePosition =
-          tbody.children[y + index - num].children[x + index - num];
-        reverse(changePosition);
-      }
-      return 1;
-    }
+  for (let index = 1; index <= 7; index++) {
+    let td = tbody.children[y + index]?.children[x + index];
+    if (td) {
+      if (td.className === "") return 0;
+      if (!td.classList.contains(currentColor())) {
+        hasAnyOppositeColor = true;
+      } else if (hasAnyOppositeColor === true) {
+        for (index; index >= 0; index--) {
+          let changePosition = tbody.children[y + index]?.children[x + index];
+          reverse(changePosition);
+        }
+        return 1;
+      } else return 0;
+    } else return 0;
   }
-  return 0;
 }
 
 //Count Function
