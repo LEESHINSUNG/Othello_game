@@ -52,91 +52,57 @@ gameBoard.forEach((stone, index, stone_all) => {
     console.log(`click Position : ${x}, ${y}`); // クリックしたポジションのチェック用
 
     // Reverse color 色を変える（石を裏返す）
+    const checkFunctions = [
+      checkDirection(x, y, { x: "+", y: "" }), // Right
+      checkDirection(x, y, { x: "-", y: "" }), // Left
+      checkDirection(x, y, { x: "", y: "-" }), // Top
+      checkDirection(x, y, { x: "", y: "+" }), // bottom
+      checkDirection(x, y, { x: "+", y: "-" }), // TopRight
+      checkDirection(x, y, { x: "-", y: "-" }), // TopLeft
+      checkDirection(x, y, { x: "+", y: "+" }), // BottomRight
+      checkDirection(x, y, { x: "-", y: "+" }), // BottomLeft
+    ];
 
-    // const Right = checkRight(x, y);
-    // const Left = checkLeft(x, y);
-    const Right = checkDirection(x, y, { x: "+", y: "" });
-    const Left = checkDirection(x, y, { x: "-", y: "" });
-    const Top = checkDirection(x, y, { x: "", y: "-" });
-    const Bottom = checkDirection(x, y, { x: "", y: "+" });
-    const TopRight = checkDirection(x, y, { x: "+", y: "-" });
-    const TopLeft = checkDirection(x, y, { x: "-", y: "-" });
-    const BottomRight = checkDirection(x, y, { x: "+", y: "+" });
-    const BottomLeft = checkDirection(x, y, { x: "-", y: "+" });
-    // checkFunctions = [
-    //   checkRight,
-    //   checkLeft,
-    //   checkTop,
-    //   checkBottom,
-    //   checkTopRight,
-    //   checkTopLeft,
-    //   checkBottomRight,
-    //   checkBottomLeft,
-    // ];
-    // const checkResults = checkFunctions.map(fn=> fn(x,y)) // [0,0,0,1,0]
-    // checkResults = [
-    //   checkRight(x,y),
-    //   checkLeft(x,y),
-    //   checkTop(x,y),
-    //   checkBottom(x,y),
-    //   checkTopRight(x,y),
-    //   checkTopLeft(x,y),
-    //   checkBottomRight(x,y),
-    //   checkBottomLeft(x,y),
-    // ]; // [0,0,0,1,0]
-
-    if (
-      Right === 1 ||
-      Left === 1 ||
-      Top === 1 ||
-      Bottom === 1 ||
-      TopRight === 1 ||
-      TopLeft === 1 ||
-      BottomRight === 1 ||
-      BottomLeft === 1
-    ) {
+    if (checkFunctions.includes(1)) {
       if (!whoIsTurn.checked) {
         putStone.classList.add("black"); //　黒石を置く
-        toggle_switch.click();
+        whoIsTurn.click();
       } else {
         putStone.classList.add("white"); // 白石を置く
-        toggle_switch.click();
+        whoIsTurn.click();
       }
     }
 
     // 色の数を表示（モニタリング）
-    scoreCheck(tbody);
-
+    const score = scoreCheck(tbody);
+    if (score === 64) {
+      game_result_screen();
+      return;
+    }
     // 新しいプレイヤーは何か所に置けれるかを敬さん
     const count = countPlaces();
-    return;
     // 自動パス
+    console.log(currentColor(), count);
     if (count === 0) {
-      if (turn === BLACK) {
-        alert("置く場所がないのでパスします");
-        turn = WHITE;
-        toggle_switch.click();
-        countPlaces();
-        if (count === 0) {
-          // お互いに1回ずつ自動パスしたらゲーム終了
-          alert("お互いに1回ずつパスしましたので終了します");
-          game_result_screen(tbody);
-          return 0;
-        }
+      if (whoIsTurn.checked === false) {
+        alert("黒石を置く場所がないのでパスします。");
+        checkDouble();
       } else {
-        alert("置く場所がないのでパスします");
-        turn = BLACK;
-        toggle_switch.click();
-        if (count === 0) {
-          alert("お互いに1回ずつパスしましたので終了します");
-          game_result_screen(tbody);
-          return 0;
-        }
+        alert("白石を置く場所がないのでパスします。");
+        checkDouble();
       }
-      alert("置く場所なし");
     }
   });
 });
+
+function checkDouble() {
+  whoIsTurn.click();
+  const count = countPlaces();
+  if (count === 0) {
+    alert("お互いに1回ずつパスしましたので終了します");
+    game_result_screen();
+  }
+}
 
 function scoreCheck(tbody) {
   const scoreWhiteCount = tbody.querySelectorAll("td.white");
@@ -145,6 +111,9 @@ function scoreCheck(tbody) {
   scoreBlack.innerHTML = scoreBlackCount.length;
   scoreWhiteResult.innerHTML = scoreWhiteCount.length;
   scoreBlackResult.innerHTML = scoreBlackCount.length;
+  if (scoreWhiteCount.length + scoreBlackCount.length == 64) {
+    return 64;
+  }
 }
 
 // マスから位置をとる
@@ -162,26 +131,18 @@ function countPlaces() {
 
   for (const td of currentPlayerList) {
     const [x, y] = getXY(td);
-
-    const CountR = rightCount(x, y);
-    const CountL = leftCount(x, y);
-    const CountT = topCount(x, y);
-    const CountB = bottomCount(x, y);
-    const CountTR = topRightCount(x, y);
-    const CountTL = topLeftCount(x, y);
-    const CountBR = bottomRightCount(x, y);
-    const CountBL = bottomLeftCount(x, y);
-
-    if (
-      CountR === 1 ||
-      CountL === 1 ||
-      CountT === 1 ||
-      CountB === 1 ||
-      CountTR === 1 ||
-      CountTL === 1 ||
-      CountBR === 1 ||
-      CountBL === 1
-    ) {
+    console.log("point :", [x, y]);
+    const countFunctions = [
+      countDirection(x, y, { x: "+", y: "" }), //Right
+      countDirection(x, y, { x: "-", y: "" }), //Left
+      countDirection(x, y, { x: "", y: "-" }), //Top
+      countDirection(x, y, { x: "", y: "+" }), //Bottom
+      countDirection(x, y, { x: "+", y: "-" }), //TopRight
+      countDirection(x, y, { x: "-", y: "-" }), //TopLeft
+      countDirection(x, y, { x: "+", y: "+" }), //BottomRight
+      countDirection(x, y, { x: "-", y: "+" }), //BottomLeft
+    ];
+    if (countFunctions.includes(1)) {
       count++;
     }
   }
@@ -232,7 +193,7 @@ function reverse(td) {
 
 //Reset/Restart_function
 function reset_restart_game() {
-  const tbody = document.querySelector("tbody");
+  const tbody = document.querySelector("tbody"); // 하나하나 체크가 아닌 한번에 클래스네임 없애기
   gameBoard.forEach((stones, index, removeBlackStone) => {
     stones.classList.remove("black");
     stones.classList.remove("white");
@@ -246,27 +207,6 @@ function reset_restart_game() {
   }
   scoreCheck(tbody);
 }
-
-//Check function (reverse color)
-// function checkRight(x, y) {
-//   const tbody = document.querySelector("tbody");
-//   let hasAnyOppositeColor = false;
-//   for (let index = 1; index <= 7; index++) {
-//     let td = tbody.children[y].children[x + index];
-//     if (td) {
-//       if (!td.className) return 0;
-//       if (!td.classList.contains(currentColor())) {
-//         hasAnyOppositeColor = true;
-//       } else if (hasAnyOppositeColor === true) {
-//         for (index; index >= 0; index--) {
-//           let changePosition = tbody.children[y].children[x + index];
-//           reverse(changePosition);
-//         }
-//         return 1;
-//       } else return 0;
-//     } else return 0;
-//   }
-// }
 
 function getTD(x, y, direction, index) {
   const tbody = document.querySelector("tbody");
@@ -305,117 +245,39 @@ function checkDirection(x, y, direction) {
   }
 }
 
-/* 
-for ..... {
-  if hantaino ishiga attara {
-    continue
-  }
-  break , return 
+function getBlack(x, y, direction) {
+  const tbody = document.querySelector("tbody");
+  let xIndex = null;
+  let yIndex = null;
+  if (direction.x === "+") {
+    xIndex = x + 1;
+  } else if (direction.x === "-") {
+    xIndex = x - 1;
+  } else xIndex = x;
 
+  if (direction.y === "+") {
+    yIndex = y + 1;
+  } else if (direction.y === "-") {
+    yIndex = y - 1;
+  } else yIndex = y;
+  return tbody.children[yIndex]?.children[xIndex];
 }
-*/
 
 //Count Function
-function rightCount(x, y) {
+function countDirection(x, y, direction) {
   const tbody = document.querySelector("tbody");
   const tdXY = tbody.children[y].children[x];
-  for (let index = 1; x + index <= 7; index++) {
-    if (tbody.children[y].children[x + 1].className === "") return 0; // 空きマスなのか
-    let td = tbody.children[y].children[x + index];
-    if (td.className === tdXY.className) return 0;
-    if (td.className === "") {
-      return 1;
-    }
-  }
-}
-
-function leftCount(x, y) {
-  const tbody = document.querySelector("tbody");
-  const tdXY = tbody.children[y].children[x];
-  for (let index = 1; index <= 7; index++) {
-    if (tbody.children[y].children[x - 1].className === "") return 0;
-    let td = tbody.children[y].children[x - index];
-    if (td.className === tdXY.className) return 0;
-    if (td.className === "") {
-      return 1;
-    }
-  }
-}
-
-function topCount(x, y) {
-  const tbody = document.querySelector("tbody");
-  const tdXY = tbody.children[y].children[x];
-  for (let index = 1; index <= 7; index++) {
-    if (tbody.children[y - 1].children[x].className === "") return 0;
-    let td = tbody.children[y - index].children[x];
-    if (td.className === tdXY.className) return 0;
-    if (td.className === "") {
-      return 1;
-    }
-  }
-}
-
-function bottomCount(x, y) {
-  const tbody = document.querySelector("tbody");
-  const tdXY = tbody.children[y].children[x];
-  for (let index = 1; index <= 7; index++) {
-    if (tbody.children[y + 1].children[x].className === "") return 0;
-    let td = tbody.children[y + index].children[x];
-    if (td.className === tdXY.className) return 0;
-    if (td.className === "") {
-      return 1;
-    }
-  }
-}
-
-function topRightCount(x, y) {
-  const tbody = document.querySelector("tbody");
-  const tdXY = tbody.children[y].children[x];
-  for (let index = 1; index <= 7; index++) {
-    if (tbody.children[y - 1].children[x + 1].className === "") return 0;
-    const td = tbody.children[y - index].children[x + index];
-    if (td.className === tdXY.className) return 0;
-    if (td.className === "") {
-      return 1;
-    }
-  }
-}
-
-function topLeftCount(x, y) {
-  const tbody = document.querySelector("tbody");
-  const tdXY = tbody.children[y].children[x];
-  for (let index = 1; index <= 7; index++) {
-    if (tbody.children[y - 1].children[x - 1].className === "") return 0;
-    const td = tbody.children[y - index].children[x - index];
-    if (td.className === tdXY.className) return 0;
-    if (td.className === "") {
-      return 1;
-    }
-  }
-}
-
-function bottomRightCount(x, y) {
-  const tbody = document.querySelector("tbody");
-  const tdXY = tbody.children[y].children[x];
-  for (let index = 1; index <= 7; index++) {
-    if (tbody.children[y + 1].children[x + 1].className === "") return 0;
-    const td = tbody.children[y + index].children[x + index];
-    if (td.className === tdXY.className) return 0;
-    if (td.className === "") {
-      return 1;
-    }
-  }
-}
-
-function bottomLeftCount(x, y) {
-  const tbody = document.querySelector("tbody");
-  const tdXY = tbody.children[y].children[x];
-  for (let index = 1; index <= 7; index++) {
-    if (tbody.children[y + 1].children[x - 1].className === "") return 0;
-    const td = tbody.children[y + index].children[x - index];
-    if (td.className === tdXY.className) return 0;
-    if (td.className === "") {
-      return 1;
-    }
+  const checkBlank = getBlack(x, y, direction);
+  if (checkBlank) {
+    if (checkBlank.className !== "") {
+      for (let index = 1; x + index <= 7; index++) {
+        let td = getTD(x, y, direction, index);
+        if (td) {
+          console.log(td);
+          if (td.className === tdXY.className) return 0;
+          if (td.className === "") return 1;
+        }
+      }
+    } else return 0;
   }
 }

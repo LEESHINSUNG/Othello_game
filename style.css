@@ -303,7 +303,7 @@ td {
 
 .catWin {
   width: 300px;
-  transform: translate(9%);
+  /* transform: translate(-8%); */
 }
 
 .winner {
