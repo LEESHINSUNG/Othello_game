@@ -219,6 +219,40 @@ html, body {
   margin: 0;
 }
 
+
+
+td.hint::after{
+  content: "";
+  margin: auto;
+  display: block;
+  width: 70%;
+  height: 70%;
+  border: 3px solid var(--color-yellow);
+  border-radius: 50%;
+  animation: blink-effect 2s cubic-bezier(0.56, 0.12, 1, 1) infinite;
+}
+
+@keyframes blink-effect {
+  0% {
+    opacity: 0;
+    background-color: var(--color-yellow);
+    width: 40%;
+    height: 40%;
+  }
+  30% {
+    opacity: 0.7;
+    background-color: var(--color-yellow);
+    width: 60%;
+    height: 60%;
+  }
+  100%{
+    opacity: 0.2;
+    width: 80%;
+    height: 80%;
+  }
+}
+
+
 td.white::after, td.black::after{
   content: '';
   position: absolute;

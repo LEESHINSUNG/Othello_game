@@ -1,3 +1,5 @@
+const tbody = document.querySelector("tbody");
+
 // Start Button スタートボタン
 function startBtn() {
   const start_screen = document.querySelector(".start_screen");
@@ -8,16 +10,17 @@ function startBtn() {
 const gameBoard = document.querySelectorAll("td");
 
 /**< Stone Color 石の色 >
- * whoIsTurn = BLACK
- * whoIsTurn.checked = WHITE
+ * toggleSwitch = BLACK
+ * toggleSwitch.checked = WHITE
  */
-const whoIsTurn = document.getElementById("switch");
-
-// Turn condition (toggle switch) 誰のターンなのか
-const toggle_switch = document.getElementById("switch");
+const toggleSwitch = document.getElementById("switch");
 
 function currentColor() {
-  return whoIsTurn.checked === false ? "black" : "white";
+  return document.getElementById("switch").checked ? "white" : "black";
+}
+
+function oppositeColor() {
+  return document.getElementById("switch").checked ? "black" : "white";
 }
 
 // Game score & result
@@ -34,25 +37,25 @@ function restartBtn() {
   result_screen.classList.remove("show");
 }
 
-// countPlaces(); => hintで使う予定
-
 // Put stone on the table 石を置くためマスをクリック
 gameBoard.forEach((stone, index, stone_all) => {
   stone.addEventListener(`click`, () => {
-    if (stone.className !== "") {
+    if (stone.className === "black" || stone.className === "white") {
       alert("もう石があります");
       return;
     }
 
+    hintReset();
+
     // Position of stones (x,y) 石の位置
     const x = stone.cellIndex;
     const y = stone.parentElement.rowIndex;
-    const tbody = document.querySelector("tbody");
+
     const putStone = tbody.children[y].children[x];
     console.log(`click Position : ${x}, ${y}`); // クリックしたポジションのチェック用
 
     // Reverse color 色を変える（石を裏返す）
-    const checkFunctions = [
+    const DirectionResultList = [
       checkDirection(x, y, { x: "+", y: "" }), // Right
       checkDirection(x, y, { x: "-", y: "" }), // Left
       checkDirection(x, y, { x: "", y: "-" }), // Top
@@ -63,13 +66,13 @@ gameBoard.forEach((stone, index, stone_all) => {
       checkDirection(x, y, { x: "-", y: "+" }), // BottomLeft
     ];
 
-    if (checkFunctions.includes(1)) {
-      if (!whoIsTurn.checked) {
+    if (DirectionResultList.includes(1)) {
+      if (!toggleSwitch.checked) {
         putStone.classList.add("black"); //　黒石を置く
-        whoIsTurn.click();
+        toggleSwitch.click();
       } else {
         putStone.classList.add("white"); // 白石を置く
-        whoIsTurn.click();
+        toggleSwitch.click();
       }
     }
 
@@ -80,11 +83,12 @@ gameBoard.forEach((stone, index, stone_all) => {
       return;
     }
     // 新しいプレイヤーは何か所に置けれるかを敬さん
-    const count = countPlaces();
+    const countResult = checkNextMove();
+    const set = new Set(countResult);
+    const resultList = [...set];
     // 自動パス
-    console.log(currentColor(), count);
-    if (count === 0) {
-      if (whoIsTurn.checked === false) {
+    if (resultList.length === 0) {
+      if (toggleSwitch.checked === false) {
         alert("黒石を置く場所がないのでパスします。");
         checkDouble();
       } else {
@@ -96,9 +100,9 @@ gameBoard.forEach((stone, index, stone_all) => {
 });
 
 function checkDouble() {
-  whoIsTurn.click();
-  const count = countPlaces();
-  if (count === 0) {
+  toggleSwitch.click();
+  const resultList = checkNextMove();
+  if (resultList.length === 0) {
     alert("お互いに1回ずつパスしましたので終了します");
     game_result_screen();
   }
@@ -123,16 +127,17 @@ function getXY(td) {
   return [x, y];
 }
 
-function countPlaces() {
+function checkNextMove() {
+  // 石を置けれるマス
   const color = currentColor();
-  const tbody = document.querySelector("tbody");
+
   const currentPlayerList = tbody.querySelectorAll(`td.${color}`); // [td, td, td,...]
-  let count = 0; // 自動パスの確認変数
+  // let count = 0; // 自動パスの確認変数
+  const resultList = [];
 
   for (const td of currentPlayerList) {
     const [x, y] = getXY(td);
-    console.log("point :", [x, y]);
-    const countFunctions = [
+    const countResult = [
       countDirection(x, y, { x: "+", y: "" }), //Right
       countDirection(x, y, { x: "-", y: "" }), //Left
       countDirection(x, y, { x: "", y: "-" }), //Top
@@ -142,11 +147,13 @@ function countPlaces() {
       countDirection(x, y, { x: "+", y: "+" }), //BottomRight
       countDirection(x, y, { x: "-", y: "+" }), //BottomLeft
     ];
-    if (countFunctions.includes(1)) {
-      count++;
+
+    const tdList = countResult.filter((element) => element !== false); // []
+    if (tdList.length > 0) {
+      resultList.push(...tdList);
     }
   }
-  return count;
+  return resultList; // [], [...]
 }
 
 //Reset Button
@@ -155,13 +162,25 @@ function resetBtn() {
 }
 
 //Hint Button
-function hintBtn() {}
+function hintBtn() {
+  const countResult = checkNextMove();
+  const set = new Set(countResult);
+  const canPutStone = [...set];
+  canPutStone.forEach((stone) => {
+    stone.classList.add("hint");
+  });
+}
+
+function hintReset() {
+  gameBoard.forEach((hint) => {
+    hint.classList.remove("hint");
+  });
+}
 
 //Game end
 const result_screen = document.getElementById("result_screen");
 
 function game_result_screen() {
-  const tbody = document.querySelector("tbody");
   const scoreWhiteCount = tbody.querySelectorAll("td.white");
   const scoreBlackCount = tbody.querySelectorAll("td.black");
   scoreCheck(tbody);
@@ -182,7 +201,7 @@ function game_result_screen() {
 
 //Reverse color
 function reverse(td) {
-  if (!whoIsTurn.checked) {
+  if (!toggleSwitch.checked) {
     td.classList.remove("white");
     td.classList.add("black");
   } else {
@@ -193,23 +212,22 @@ function reverse(td) {
 
 //Reset/Restart_function
 function reset_restart_game() {
-  const tbody = document.querySelector("tbody"); // 하나하나 체크가 아닌 한번에 클래스네임 없애기
   gameBoard.forEach((stones, index, removeBlackStone) => {
     stones.classList.remove("black");
     stones.classList.remove("white");
+    stones.classList.remove("hint");
   });
   gameBoard[27].classList.add("white");
   gameBoard[28].classList.add("black");
   gameBoard[35].classList.add("black");
   gameBoard[36].classList.add("white");
-  if (whoIsTurn.checked) {
-    toggle_switch.click();
+  if (toggleSwitch.checked) {
+    toggleSwitch.click();
   }
   scoreCheck(tbody);
 }
 
 function getTD(x, y, direction, index) {
-  const tbody = document.querySelector("tbody");
   let xIndex = null;
   let yIndex = null;
   if (direction.x === "+") {
@@ -223,6 +241,7 @@ function getTD(x, y, direction, index) {
   } else if (direction.y === "-") {
     yIndex = y - index;
   } else yIndex = y;
+
   return tbody.children[yIndex]?.children[xIndex];
 }
 
@@ -245,39 +264,24 @@ function checkDirection(x, y, direction) {
   }
 }
 
-function getBlack(x, y, direction) {
-  const tbody = document.querySelector("tbody");
-  let xIndex = null;
-  let yIndex = null;
-  if (direction.x === "+") {
-    xIndex = x + 1;
-  } else if (direction.x === "-") {
-    xIndex = x - 1;
-  } else xIndex = x;
-
-  if (direction.y === "+") {
-    yIndex = y + 1;
-  } else if (direction.y === "-") {
-    yIndex = y - 1;
-  } else yIndex = y;
-  return tbody.children[yIndex]?.children[xIndex];
-}
-
-//Count Function
 function countDirection(x, y, direction) {
-  const tbody = document.querySelector("tbody");
-  const tdXY = tbody.children[y].children[x];
-  const checkBlank = getBlack(x, y, direction);
-  if (checkBlank) {
-    if (checkBlank.className !== "") {
-      for (let index = 1; x + index <= 7; index++) {
-        let td = getTD(x, y, direction, index);
-        if (td) {
-          console.log(td);
-          if (td.className === tdXY.className) return 0;
-          if (td.className === "") return 1;
-        }
+  let hasAnyOppositePiece = false;
+  for (let index = 1; index <= 7; index++) {
+    let td = getTD(x, y, direction, index);
+    if (td === undefined) return false;
+    if (td.classList.contains(currentColor())) return false; // " abs" => "abs"
+
+    if (!td.className) {
+      if (hasAnyOppositePiece === true) {
+        return td;
+      } else {
+        return false;
       }
-    } else return 0;
+    }
+    if (td.classList.contains(oppositeColor())) {
+      hasAnyOppositePiece = true;
+      continue;
+    }
   }
+  return false;
 }
