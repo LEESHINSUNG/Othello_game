@@ -51,8 +51,10 @@ function oppositeColor() {
 }
 // ボタン
 function startBtn() {
-  const start_screen = document.querySelector(".start_screen");
-  start_screen.classList.remove("show");
+  const startScreen = document.querySelector(".start_screen");
+  const gameScreen = document.querySelector(".game_all_screen");
+  startScreen.classList.remove("show");
+  gameScreen.classList.add("show");
 }
 
 function resetBtn() {

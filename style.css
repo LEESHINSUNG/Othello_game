@@ -46,6 +46,8 @@ html, body {
 }
 
 .start_screen.show{
+  width: 100%;
+  height: 100%;
   display: block;
   background-color: var(--color-purple)
 }
@@ -157,8 +159,15 @@ html, body {
   display: none;
 }
 
+.game_all_screen.show {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background-color: var(--color-purple);
+}
+
 .game_screen{
-    margin-top: 5%;
+    margin-top: 0%;
 }
 
 .game_all_screen.show{
