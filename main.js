@@ -1,19 +1,46 @@
+/* Gmae Board */
+const gameBoard = document.querySelectorAll("td");
 const tbody = document.querySelector("tbody");
 
-// Start Button スタートボタン
-function startBtn() {
-  const start_screen = document.querySelector(".start_screen");
-  start_screen.classList.remove("show");
-}
-
-/* Gmae Board ゲームボード */
-const gameBoard = document.querySelectorAll("td");
-
-/**< Stone Color 石の色 >
- * toggleSwitch = BLACK
- * toggleSwitch.checked = WHITE
- */
+/* Stone Color */
 const toggleSwitch = document.getElementById("switch");
+//  toggleSwitch = BLACK
+//  toggleSwitch.checked = WHITE
+
+/* Game score & result */
+const scoreWhite = document.getElementById("white_score"); // (game screen　ゲームスクリーン)
+const scoreBlack = document.getElementById("black_score");
+const scoreWhiteResult = document.getElementById("white_score_result"); // (result screen　結果スクリーン)
+const scoreBlackResult = document.getElementById("black_score_result");
+const winnerCat = document.getElementById("victory_cat");
+const winnerText = document.getElementsByClassName("result_winner");
+
+// マスをクリック
+gameBoard.forEach((td) => {
+  td.addEventListener(`click`, () => {
+    const x = td.cellIndex;
+    const y = td.parentElement.rowIndex;
+
+    if (td.className === "black" || td.className === "white") {
+      alert("もう石があります");
+      return;
+    }
+
+    if (td.className !== "") {
+      hintReset(); // ヒントを消す
+    }
+    checkReverse(x, y, td); // 石を裏返す
+
+    const score = scoreCheck(tbody); // スコアボード
+    if (score === 64) {
+      gameResultScreen();
+      return;
+    }
+
+    const resultArrangement = checkNextMove(); // 置けれるマス
+    passFunction(resultArrangement); // 自動パス
+  });
+});
 
 function currentColor() {
   return document.getElementById("switch").checked ? "white" : "black";
@@ -22,92 +49,60 @@ function currentColor() {
 function oppositeColor() {
   return document.getElementById("switch").checked ? "black" : "white";
 }
-
-// Game score & result
-const scoreWhite = document.getElementById("white_score"); // (game screen　ゲームスクリーン)
-const scoreBlack = document.getElementById("black_score");
-const scoreWhiteResult = document.getElementById("white_score_result"); // (result screen　結果スクリーン)
-const scoreBlackResult = document.getElementById("black_score_result");
-const winnerCat = document.getElementById("victory_cat");
-const winnerText = document.getElementsByClassName("result_winner");
-
-// Restart Button
-function restartBtn() {
-  reset_restart_game();
-  result_screen.classList.remove("show");
+// ボタン
+function startBtn() {
+  const start_screen = document.querySelector(".start_screen");
+  start_screen.classList.remove("show");
 }
 
-// Put stone on the table 石を置くためマスをクリック
-gameBoard.forEach((stone, index, stone_all) => {
-  stone.addEventListener(`click`, () => {
-    if (stone.className === "black" || stone.className === "white") {
-      alert("もう石があります");
-      return;
-    }
+function resetBtn() {
+  resetRestartGame();
+}
 
-    hintReset();
-
-    // Position of stones (x,y) 石の位置
-    const x = stone.cellIndex;
-    const y = stone.parentElement.rowIndex;
-
-    const putStone = tbody.children[y].children[x];
-    console.log(`click Position : ${x}, ${y}`); // クリックしたポジションのチェック用
-
-    // Reverse color 色を変える（石を裏返す）
-    const DirectionResultList = [
-      checkDirection(x, y, { x: "+", y: "" }), // Right
-      checkDirection(x, y, { x: "-", y: "" }), // Left
-      checkDirection(x, y, { x: "", y: "-" }), // Top
-      checkDirection(x, y, { x: "", y: "+" }), // bottom
-      checkDirection(x, y, { x: "+", y: "-" }), // TopRight
-      checkDirection(x, y, { x: "-", y: "-" }), // TopLeft
-      checkDirection(x, y, { x: "+", y: "+" }), // BottomRight
-      checkDirection(x, y, { x: "-", y: "+" }), // BottomLeft
-    ];
-
-    if (DirectionResultList.includes(1)) {
-      if (!toggleSwitch.checked) {
-        putStone.classList.add("black"); //　黒石を置く
-        toggleSwitch.click();
-      } else {
-        putStone.classList.add("white"); // 白石を置く
-        toggleSwitch.click();
-      }
-    }
-
-    // 色の数を表示（モニタリング）
-    const score = scoreCheck(tbody);
-    if (score === 64) {
-      game_result_screen();
-      return;
-    }
-    // 新しいプレイヤーは何か所に置けれるかを敬さん
-    const countResult = checkNextMove();
-    const set = new Set(countResult);
-    const resultList = [...set];
-    // 自動パス
-    if (resultList.length === 0) {
-      if (toggleSwitch.checked === false) {
-        alert("黒石を置く場所がないのでパスします。");
-        checkDouble();
-      } else {
-        alert("白石を置く場所がないのでパスします。");
-        checkDouble();
-      }
-    }
+function hintBtn() {
+  hintReset();
+  const countResult = checkNextMove();
+  const set = new Set(countResult); //
+  const canPutStone = [...set];
+  canPutStone.forEach((td) => {
+    td.classList.add("hint");
   });
-});
+}
 
-function checkDouble() {
+function hintReset() {
+  gameBoard.forEach((hint) => {
+    hint.classList.remove("hint");
+  });
+}
+
+function restartBtn() {
+  resetRestartGame();
+  resultScreen.classList.remove("show");
+}
+
+// 自動パス
+function passFunction(resultArrangement) {
+  if (resultArrangement.length === 0) {
+    if (toggleSwitch.checked === false) {
+      alert("黒石を置く場所がないのでパスします。");
+      doublePass();
+    } else {
+      alert("白石を置く場所がないのでパスします。");
+      doublePass();
+    }
+  }
+}
+
+function doublePass() {
   toggleSwitch.click();
   const resultList = checkNextMove();
   if (resultList.length === 0) {
     alert("お互いに1回ずつパスしましたので終了します");
-    game_result_screen();
+    gameResultScreen();
   }
 }
 
+// スコア
 function scoreCheck(tbody) {
   const scoreWhiteCount = tbody.querySelectorAll("td.white");
   const scoreBlackCount = tbody.querySelectorAll("td.black");
@@ -127,12 +122,32 @@ function getXY(td) {
   return [x, y];
 }
 
-function checkNextMove() {
-  // 石を置けれるマス
-  const color = currentColor();
+function checkReverse(x, y, td) {
+  const DirectionResultList = [
+    checkDirection(x, y, { x: "+", y: "" }), // Right
+    checkDirection(x, y, { x: "-", y: "" }), // Left
+    checkDirection(x, y, { x: "", y: "-" }), // Top
+    checkDirection(x, y, { x: "", y: "+" }), // bottom
+    checkDirection(x, y, { x: "+", y: "-" }), // TopRight
+    checkDirection(x, y, { x: "-", y: "-" }), // TopLeft
+    checkDirection(x, y, { x: "+", y: "+" }), // BottomRight
+    checkDirection(x, y, { x: "-", y: "+" }), // BottomLeft
+  ];
 
+  if (DirectionResultList.includes(true)) {
+    if (!toggleSwitch.checked) {
+      td.classList.add("black"); //　黒石を置く
+      toggleSwitch.click();
+    } else {
+      td.classList.add("white"); // 白石を置く
+      toggleSwitch.click();
+    }
+  }
+}
+
+function checkNextMove() {
+  const color = currentColor(); // 石を置けれるマス
   const currentPlayerList = tbody.querySelectorAll(`td.${color}`); // [td, td, td,...]
-  // let count = 0; // 自動パスの確認変数
   const resultList = [];
 
   for (const td of currentPlayerList) {
@@ -148,39 +163,21 @@ function checkNextMove() {
       countDirection(x, y, { x: "-", y: "+" }), //BottomLeft
     ];
 
-    const tdList = countResult.filter((element) => element !== false); // []
+    const tdList = countResult.filter((element) => element !== false);
     if (tdList.length > 0) {
       resultList.push(...tdList);
     }
   }
-  return resultList; // [], [...]
-}
+  const set = new Set(resultList);
+  const resultArrangement = [...set];
 
-//Reset Button
-function resetBtn() {
-  reset_restart_game();
-}
-
-//Hint Button
-function hintBtn() {
-  const countResult = checkNextMove();
-  const set = new Set(countResult);
-  const canPutStone = [...set];
-  canPutStone.forEach((stone) => {
-    stone.classList.add("hint");
-  });
-}
-
-function hintReset() {
-  gameBoard.forEach((hint) => {
-    hint.classList.remove("hint");
-  });
+  return resultArrangement;
 }
 
 //Game end
-const result_screen = document.getElementById("result_screen");
+const resultScreen = document.getElementById("result_screen");
 
-function game_result_screen() {
+function gameResultScreen() {
   const scoreWhiteCount = tbody.querySelectorAll("td.white");
   const scoreBlackCount = tbody.querySelectorAll("td.black");
   scoreCheck(tbody);
@@ -196,10 +193,10 @@ function game_result_screen() {
     winnerText.innerHTML = `<p class="winner">Draw</p>`;
   }
 
-  result_screen.classList.add("show");
+  resultScreen.classList.add("show");
 }
 
-//Reverse color
+//石を裏返す
 function reverse(td) {
   if (!toggleSwitch.checked) {
     td.classList.remove("white");
@@ -211,11 +208,11 @@ function reverse(td) {
 }
 
 //Reset/Restart_function
-function reset_restart_game() {
-  gameBoard.forEach((stones, index, removeBlackStone) => {
-    stones.classList.remove("black");
-    stones.classList.remove("white");
-    stones.classList.remove("hint");
+function resetRestartGame() {
+  gameBoard.forEach((td) => {
+    td.classList.remove("black");
+    td.classList.remove("white");
+    td.classList.remove("hint");
   });
   gameBoard[27].classList.add("white");
   gameBoard[28].classList.add("black");
@@ -249,18 +246,17 @@ function checkDirection(x, y, direction) {
   let hasAnyOppositeColor = false;
   for (let index = 1; index <= 7; index++) {
     let td = getTD(x, y, direction, index);
-    if (td) {
-      if (!td.className) return 0;
-      if (!td.classList.contains(currentColor())) {
-        hasAnyOppositeColor = true;
-      } else if (hasAnyOppositeColor === true) {
-        for (index; index >= 0; index--) {
-          let changePosition = getTD(x, y, direction, index);
-          reverse(changePosition);
-        }
-        return 1;
-      } else return 0;
-    } else return 0;
+    if (td === undefined || td.className === "") return false;
+
+    if (td.classList.contains(oppositeColor())) {
+      hasAnyOppositeColor = true;
+    } else if (hasAnyOppositeColor === true) {
+      for (index; index >= 0; index--) {
+        let changePosition = getTD(x, y, direction, index);
+        reverse(changePosition);
+      }
+      return true;
+    } else return false;
   }
 }
 
@@ -270,7 +266,6 @@ function countDirection(x, y, direction) {
     let td = getTD(x, y, direction, index);
     if (td === undefined) return false;
     if (td.classList.contains(currentColor())) return false; // " abs" => "abs"
-
     if (!td.className) {
       if (hasAnyOppositePiece === true) {
         return td;
